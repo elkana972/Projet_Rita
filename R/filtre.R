@@ -24,6 +24,7 @@ array_zone = function()
 
 filtre_zone=function(bdd,zone)
 {
+  
   filtre_bdd=bdd
   a_z=array_zone()
   #recup correspond à recuperation 
@@ -32,19 +33,20 @@ filtre_zone=function(bdd,zone)
 
   #parcourir la liste
    iter_list=1
-   for( i in 1:length(filtre_bdd) )
-   {
-     
-     f = filtre_bdd[[iter_list]]
-     
-     dplyr::filter(f,f$Zone!=zone_recup)
-     
-     iter_list=iter_list+1
-     
-   }
+    for( i in 1:length(filtre_bdd) )
+    {
   
-  return(bdd)
+      print(iter_list)
+  
+  #    Permet d’extraire des observations selon une condition logique, dans notre cas ça dependra de la zone choisie par l'utilisateur
+      filtre_bdd[[iter_list]] = dplyr::filter( filtre_bdd[[iter_list]] , filtre_bdd[[iter_list]]$Zone!=zone_recup )
+  
+      iter_list=iter_list+1
+  
+    }
 
+  return(filtre_bdd)
+  
 }
 
 filtre_espece=function()
