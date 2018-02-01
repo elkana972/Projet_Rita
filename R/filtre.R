@@ -8,6 +8,8 @@ InstIfNec<-function (pack) {
   do.call(require,as.list(pack)) }
 lapply(packs, InstIfNec)
 
+#options("max.print"=1000000) augmenter la taille du print dans le terminal
+
 bdd=model()
 
 array_zone = function()
@@ -29,13 +31,17 @@ filtre_zone=function(bdd,zone)
   zone_recup=levels(zone_recup)
 
   #parcourir la liste
-  # iter_list=1
-  # for( i in 1:length(filtre_bdd) )
-  # {
-  #   filtre_bdd[[iter_list]]
-  #   iter_list=iter_list+1
-  #   
-  # }
+   iter_list=1
+   for( i in 1:length(filtre_bdd) )
+   {
+     
+     f = filtre_bdd[[iter_list]]
+     
+     dplyr::filter(f,f$Zone!=zone_recup)
+     
+     iter_list=iter_list+1
+     
+   }
   
   return(bdd)
 
