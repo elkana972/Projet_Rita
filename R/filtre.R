@@ -18,6 +18,13 @@ array_zone = function()
   return(zone)
 }
 
+array_esp = function()
+{  
+  esp =data.frame( Dioscorea_alata=c("Da"), Dioscorea_rotundata=c("Dcr") )
+  return(esp)
+}
+
+
 #faire des tests dans le terminal avant de passer à la partie graphique
 # > f_z=filtre_zone(bdd = bdd,zone = "Marie_Galante" )
 
@@ -49,7 +56,29 @@ filtre_zone=function(bdd,zone)
   
 }
 
-filtre_espece=function()
+
+#  f_e=filtre_zone(bdd = bdd,espece = "Dioscorea_rotundata" )
+
+filtre_espece=function(bdd,espece)
 {
+  filtre_bdd=bdd
+  a_e=array_esp()
+  print(a_e)
+  #recup correspond à recuperation 
+  esp_recup=a_e[,espece]
+  esp_recup=levels(esp_recup)
+  # 
+  # #parcourir la liste
+  iter_list=1
+  for( i in 1:length(filtre_bdd) )
+  {
+    #    Permet d’extraire des observations selon une condition logique, dans notre cas ça dependra de la zone choisie par l'utilisateur
+    filtre_bdd[[iter_list]] = dplyr::filter( filtre_bdd[[iter_list]] , filtre_bdd[[iter_list]]$Sp!=esp_recup )
+    iter_list=iter_list+1
+
+  }
+
+  return(filtre_bdd)
+
   
 }
