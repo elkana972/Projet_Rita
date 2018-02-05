@@ -38,7 +38,7 @@ filtre_zone=function(bdd,zone)
   zone_recup=a_z[,zone]
   zone_recup=levels(zone_recup)
 
-  #parcourir la liste
+  #parcourir la liste (bdd)
    iter_list=1
     for( i in 1:length(filtre_bdd) )
     {
@@ -47,7 +47,7 @@ filtre_zone=function(bdd,zone)
   
   #    Permet d’extraire des observations selon une condition logique, dans notre cas ça dependra de la zone choisie par l'utilisateur
       filtre_bdd[[iter_list]] = dplyr::filter( filtre_bdd[[iter_list]] , filtre_bdd[[iter_list]]$Zone!=zone_recup )
-  
+    
       iter_list=iter_list+1
   
     }
