@@ -1,4 +1,4 @@
-source("R/model.R")
+source("model.R")
 
 # Get the libraries
 packs <- c("dplyr", "ggplot2", "tidyr", "viridis", "scales")
@@ -14,14 +14,18 @@ bdd=model()
 
 array_zone = function()
 {  
-  zone =data.frame( Grande_Terre=c("GT"), Basse_Terre=c("BT") , Marie_Galante=c("MG") )
+  
+  zone = data.frame(id=c("GT","BT","MG"),libelle=c("GRANDE-TERRE","BASSE-TERRE","MARIE-GALANTE") )
+  zone = levels(zone$libelle)
   return(zone)
+  
 }
 
 array_esp = function()
 {  
-  esp =data.frame( Dioscorea_alata=c("Da"), Dioscorea_rotundata=c("Dcr") )
+  esp =data.frame(id=c ("Da","Dcr"),libelle=c("Dioscorea-alata","Dioscorea-rotundata" ))
   return(esp)
+  
 }
 
 

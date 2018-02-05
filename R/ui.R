@@ -1,12 +1,25 @@
+source("filtre.R")
+
+zn=array_zone()
+
 
 ui = fluidPage(
   
-  titlePanel(" Projet Rita"),
+  #titlePanel(" Projet Rita"),
   sidebarLayout(
-    tags$h1("First level"),
-  
-    sidebarPanel(),
-  mainPanel()
+    
+    sidebarPanel(
+      tags$h1("Zone"),
+    checkboxGroupInput(inputId="zone",label = "Selectionnez la zone qui vous intéresse",
+                       choices = zn ),
+    actionButton(inputId="suivant", label="suivant")
+   
+    ),
+    
+  mainPanel(
+    
+    tags$h1("Image")
+  )
   
   )
 
