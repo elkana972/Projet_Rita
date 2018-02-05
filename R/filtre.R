@@ -1,4 +1,4 @@
-source("data/model.R")
+source("R/model.R")
 
 # Get the libraries
 packs <- c("dplyr", "ggplot2", "tidyr", "viridis", "scales")
@@ -32,32 +32,42 @@ array_esp = function()
 filtre_zone=function(bdd,zone)
 {
   
-  filtre_bdd=bdd
+ filtre_bdd=bdd
+  #bdd_rita=bdd
   a_z=array_zone()
   #recup correspond à recuperation 
   zone_recup=a_z[,zone]
   zone_recup=levels(zone_recup)
 
   #parcourir la liste (bdd)
-   iter_list=1
-    for( i in 1:length(filtre_bdd) )
-    {
+  #  iter_list=1
+  #   for( i in 1:length(filtre_bdd) )
+  #   {
+  # 
+  #     print(iter_list)
+  # 
+  # #    Permet d’extraire des observations selon une condition logique, dans notre cas ça dependra de la zone choisie par l'utilisateur
+  #     filtre_bdd[[iter_list]] = dplyr::filter( filtre_bdd[[iter_list]] , filtre_bdd[[iter_list]]$Zone==zone_recup )
+  # 
+  #     iter_list=iter_list+1
+  # 
+  #   }
   
-      print(iter_list)
-  
-  #    Permet d’extraire des observations selon une condition logique, dans notre cas ça dependra de la zone choisie par l'utilisateur
-      filtre_bdd[[iter_list]] = dplyr::filter( filtre_bdd[[iter_list]] , filtre_bdd[[iter_list]]$Zone!=zone_recup )
-    
-      iter_list=iter_list+1
-  
-    }
 
-  return(filtre_bdd)
+  
+  v=lapply(filtre_bdd, filtre_zone_espece) 
+  return(v)
   
 }
 
 
 #  f_e=filtre_zone(bdd = bdd,espece = "Dioscorea_rotundata" )
+
+filtre_zone_espece=function(bdd)
+{
+  filtre = subset(bdd, bdd$Zone=="BT")
+  return(filtre)
+}
 
 filtre_espece=function(bdd,espece)
 {
