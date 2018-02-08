@@ -23,7 +23,8 @@ array_zone = function()
 
 array_esp = function()
 {  
-  esp =data.frame(id=c ("Da","Dcr"),libelle=c("Dioscorea-alata","Dioscorea-rotundata" ))
+  esp = data.frame(id=c ("Da","Dcr"),libelle=c("Dioscorea-alata","Dioscorea-rotundata" ))
+  esp = levels(esp$libelle)
   return(esp)
   
 }
@@ -33,11 +34,11 @@ array_esp = function()
 # > f_z=filtre_zone(bdd = bdd,zone = "Marie_Galante" )
 
 
-filtre_zone=function(bdd,zone)
+filtre_all=function(bdd,zone,espece)
 {
   
  filtre_bdd=bdd
-  #bdd_rita=bdd
+  
   a_z=array_zone()
   #recup correspond à recuperation 
   zone_recup=a_z[,zone]
@@ -59,15 +60,19 @@ filtre_zone=function(bdd,zone)
   
 
   
-  v=lapply(filtre_bdd, filtre_zone_espece) 
+  v=lapply(filtre_bdd,choose_zone_espece) 
   return(v)
   
 }
 
 
 #  f_e=filtre_zone(bdd = bdd,espece = "Dioscorea_rotundata" )
+choose_zone_user=function(choix_zone)
+{
+  
+}
 
-filtre_zone_espece=function(bdd)
+choose_zone_espece=function(bdd)
 {
   filtre = subset(bdd, bdd$Zone=="BT")
   return(filtre)
