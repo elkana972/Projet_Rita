@@ -17,7 +17,7 @@ ui = fluidPage(
     actionButton(inputId="suivant", label="suivant",onclick ="location.href='http://localhost:3838/sample-apps/Projet_Rita/R/app2/';"),
     #actionButton(inputId="suivant", label="suivant"),
   
-     textOutput(outputId="erreur") 
+     textOutput(outputId="message") 
     ),
     
   mainPanel(

@@ -13,6 +13,7 @@ ui = fluidPage(
       checkboxGroupInput(inputId="espece",label = "Selectionnez l'espece qui vous intéresse",
                          choices = esp ),
       #actionButton(inputId="suivant", label="suivant",onclick ="location.href='http://localhost:3838/sample-apps/Projet_Rita/R/app2/';"),
+      actionButton(inputId="precedent", label="precedent",onclick ="location.href='http://localhost:3838/sample-apps/Projet_Rita/R/app1/?req=1';"),
       actionButton(inputId="valider", label="valider")
       ),
     
