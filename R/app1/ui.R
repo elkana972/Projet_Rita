@@ -1,5 +1,6 @@
 source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/filtre.R")
 
+#source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/global.R")
 
 
 zn=array_zone()

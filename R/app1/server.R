@@ -2,26 +2,26 @@
 server=function(input,output,session)
 {
   
+  information_user <- read.table("/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv" , header=TRUE, sep=";", na.strings="NA", dec=",", strip.white=TRUE)  
+  l=length(row.names( information_user  ))
   
   
-  
+
   #action générée quand l'utilisateur va cliquer sur suivant
    observeEvent(input$suivant,
                 {
                    # output$erreur=renderText({"Veuillez saisir au moins une zone"})
                    #traitement
-                  zn=input$zone
-                  information_user <- read.table("/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv" , header=TRUE, sep=";", na.strings="NA", dec=",", strip.white=TRUE)  
-                  #question : autre methode pour connaitre la dernière ligne du tableau
-                  l=length(row.names( information_user  ))
+                   zn=input$zone
+                 
+                   #question : autre methode pour connaitre la dernière ligne du tableau
+              
+                  #interup=information_user[l,6]
+                  valider=information_user[l,6]
                   
-                  query = parseQueryString(session$clientData$url_search)
-                  lg_query=length(query)
-                  
-                  if(lg_query==0)
+                  if(valider==1)
                   {
-                  #output$message=renderText({length(query)})
-                  
+                        cat("debut")
                         for(i in 1: length(zn))
                         {
                           if(zn[i]=="BASSE-TERRE")
@@ -39,9 +39,16 @@ server=function(input,output,session)
                           }
                           
                         }
+                    output$message=renderText({"nouvelle ligne"})
                   }
-                  else
+                  else if(valider==0)
                   {
+                    cat("en cours")
+                    #initialisation
+                    information_user[l,1]=0
+                    information_user[l,2]=0
+                    information_user[l,3]=0
+                    
                     for(i in 1: length(zn))
                     {
                       if(zn[i]=="BASSE-TERRE")
@@ -57,9 +64,10 @@ server=function(input,output,session)
                         information_user[l,3]=1
                         
                       }
+                     
                       
                     } 
-                    
+                    output$message=renderText({"ligne en cours"})
                   }
                   
                   inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv",row.names=FALSE,  sep = ";",dec = "," , na = "0")
@@ -72,11 +80,22 @@ server=function(input,output,session)
   #désactive le bouton "suivant" si il n'y  élément séctionné
   observe({
     
+    #query = parseQueryString(session$clientData$url_search)
     z=input$zone
-    #print(z)
     taille_z=length(z)
+    #lg_query = length(query)
+    
+    
+    
     shinyjs::toggleState(id="suivant",taille_z>0)
+    
+    
   })
   
- 
-}
+  # onStop(function(){
+  #   cat("Session stopped\n")
+  #   var=1
+  #   cat(var)
+  #   })
+
+  }

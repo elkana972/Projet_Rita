@@ -2,7 +2,9 @@
 
 server = function(input,output,session)
   {
-   
+  information_user <- read.table("/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv" , header=TRUE, sep=";", na.strings="NA", dec=",", strip.white=TRUE)  
+  l=length(row.names( information_user  ))
+  
   
   #action générée quand l'utilisateur va cliquer sur suivant
   observeEvent(input$valider,
@@ -11,11 +13,11 @@ server = function(input,output,session)
                  # output$erreur=renderText({"Veuillez saisir au moins une zone"})
                  #traitement
                  e=input$espece
-                 information_user <- read.table("/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv" , header=TRUE, sep=";", na.strings="NA", dec=",", strip.white=TRUE)  
                  #question : autre methode pour connaitre la dernière ligne du tableau
-                 l=length(row.names( information_user  ))
                  
-                 print(l)
+                 #intialisation 
+                 information_user[l,4]=0
+                 information_user[l,5]=0
                  
                  for(i in 1: length(e))
                  {
@@ -66,6 +68,7 @@ server = function(input,output,session)
                  bdd = model()
                  f=filtre_all(bdd = bdd,list_esp = list_espe ,list_zone = list_zone)
                  print(f[[2]])
+                 information_user[l,6]=1
                  inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv",row.names=FALSE,  sep = ";",dec = "," ,na = "0")
                  
                }
@@ -84,8 +87,15 @@ server = function(input,output,session)
     shinyjs::toggleState(id="valider",taille_e>0)
   })
   
-  
-  
+  onStop(function(){
+    cat("Session stopped\n")
+    information_user[l,1]=0
+    information_user[l,2]=0
+    information_user[l,3]=0
+    inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv",row.names=FALSE,  sep = ";",dec = "," ,na = "0")
+
+    })
+
   }
     
   
