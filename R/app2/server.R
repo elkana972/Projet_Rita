@@ -87,14 +87,14 @@ server = function(input,output,session)
     shinyjs::toggleState(id="valider",taille_e>0)
   })
   
-  onStop(function(){
-    cat("Session stopped\n")
-    information_user[l,1]=0
-    information_user[l,2]=0
-    information_user[l,3]=0
-    inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv",row.names=FALSE,  sep = ";",dec = "," ,na = "0")
-
-    })
+  # onStop(function(){
+  #   cat("Session stopped\n")
+  #   information_user[l,1]=0
+  #   information_user[l,2]=0
+  #   information_user[l,3]=0
+  #   inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv",row.names=FALSE,  sep = ";",dec = "," ,na = "0")
+  # 
+  #   })
 
   }
     
