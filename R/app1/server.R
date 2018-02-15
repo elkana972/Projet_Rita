@@ -71,7 +71,8 @@ server=function(input,output,session)
                   }
                   
                   inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv",row.names=FALSE,  sep = ";",dec = "," , na = "0")
-                 # source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/app2/server.R")
+                 close(inform_usr)
+                  # source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/app2/server.R")
                   
                 }
                 

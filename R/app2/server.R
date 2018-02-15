@@ -70,12 +70,19 @@ server = function(input,output,session)
                  print(f[[2]])
                  information_user[l,6]=1
                  inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv",row.names=FALSE,  sep = ";",dec = "," ,na = "0")
+                 close(file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv")
                  
+                 #Sys.sleep(6)
                }
                
   )
   
-  
+  observeEvent(input$precedent,
+               {
+                 source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/app1/ui.R")
+                 
+               }
+  )
   
   
   #désactive le bouton "valider" si il n'y pas d'éléments séctionnés
