@@ -23,7 +23,7 @@ c=lapply(m,lengt_variety)
 i=which.max(c)
 
 print(i)
-#dans la liste des bdd l'indice nous renvoie 1 donc emergence possede le plus de varietes
+#dans la liste des bdd l'indice nous renvoie 1 donc plantation possede le plus de varietes
 
 qualite <- read.table("~/Dropbox/Stage_cirad/bdd_projet/qualité.csv" , header=TRUE, sep=";", na.strings="NA", dec=",", strip.white=TRUE)  
 recup_var = m[[i]]
@@ -47,5 +47,5 @@ s=subset ( array_recup, !array_recup %in% array_qual)
 
 #f=as.character.factor(f)
 
-# mise en 
+# mise en d'un
 
