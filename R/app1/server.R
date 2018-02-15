@@ -7,6 +7,10 @@ server=function(input,output,session)
   print(l)
   
 
+  observeEvent(input$help, {
+    shinyjs::alert("Si vous ne selectionnez aucune zone vous ne pourrez pas continuer")
+  })
+  
   #action générée quand l'utilisateur va cliquer sur suivant
    observeEvent(input$suivant,
                 {
