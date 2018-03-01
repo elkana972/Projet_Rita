@@ -2,9 +2,9 @@
 
 server = function(input,output,session)
   {
+  
   information_user <- read.table("/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv" , header=TRUE, sep=";", na.strings="NA", dec=",", strip.white=TRUE)  
   l=length(row.names( information_user  ))
-  
   
   #action générée quand l'utilisateur va cliquer sur suivant
   observeEvent(input$valider,
@@ -67,10 +67,14 @@ server = function(input,output,session)
                  # traitement avec les filtres
                  bdd = model()
                  f=filtre_all(bdd = bdd,list_esp = list_espe ,list_zone = list_zone)
-                 print(f[[2]])
+                 output$table2 = renderTable( f[[2]] )
+                 print( f[[2]] )
                  information_user[l,6]=1
+                 
+                 output$table = renderTable(information_user)
+                 
                  inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv",row.names=FALSE,  sep = ";",dec = "," ,na = "0")
-                 close(file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv")
+                 #close(file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user.csv")
                  
                  #Sys.sleep(6)
                }
@@ -79,7 +83,8 @@ server = function(input,output,session)
   
   observeEvent(input$precedent,
                {
-                 source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/app1/ui.R")
+                 source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/app1/server.R",local = TRUE)
+                # source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/app1/ui.R",local = TRUE)
                  
                }
   )
@@ -87,6 +92,7 @@ server = function(input,output,session)
   
   #désactive le bouton "valider" si il n'y pas d'éléments séctionnés
   observe({
+    output$table = renderTable(information_user)
     e=input$espece
     taille_e=length(e)
     str(e)
