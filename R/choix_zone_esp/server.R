@@ -1,6 +1,4 @@
 
-
-
 server = function(output,input)
 {
   observeEvent(input$help, {
@@ -93,7 +91,7 @@ server = function(output,input)
                  print(list_zone)
                  
                  # traitement avec les filtres
-                 bdd = model()
+                 bdd = ldf
                  f=filtre_all(bdd = bdd,list_esp = list_espe ,list_zone = list_zone)
                  #output$table2 = renderTable( f[[2]] )
                  print( f[[2]] )

@@ -65,7 +65,8 @@ server = function(input,output,session)
                  print(list_zone)
                  
                  # traitement avec les filtres
-                 bdd = model()
+                 
+                 bdd = ldf
                  f=filtre_all(bdd = bdd,list_esp = list_espe ,list_zone = list_zone)
                  output$table2 = renderTable( f[[2]] )
                  print( f[[2]] )
@@ -96,7 +97,6 @@ server = function(input,output,session)
     e=input$espece
     taille_e=length(e)
     str(e)
-    
     shinyjs::toggleState(id="valider",taille_e>0)
   })
   

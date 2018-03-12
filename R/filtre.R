@@ -43,7 +43,7 @@ filtre_all=function(bdd,list_esp,list_zone)
 
 choose_zone_espece=function(bdd,list_esp,list_zn)
 {
-  filtre = subset(bdd,Sp %in% list_esp & Zone %in% list_zn)
+  filtre = subset(bdd,Sp.x %in% list_esp & Zone %in% list_zn)
 }
 
 #faire des tests dans le terminal avant de passer à la partie graphique
