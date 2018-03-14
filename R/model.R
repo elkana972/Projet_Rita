@@ -20,10 +20,9 @@ dsen<-read.csv("~/data_rita/senescence.csv", sep=";", dec=",", header=T,fileEnco
 dsto<-read.csv("~/data_rita/stockage.csv", sep=";", dec=",", header=T,fileEncoding = "latin1")
 
 
-print("2")
 
 dvar<-dplyr::select(dvar, Sp, Code, Var)
-print("1")
+
 dvar$Var<-as.character(dvar$Var)
 dvar$Code<-as.character(dvar$Code)
 ldf<-list(dpla=dpla, deme=deme, drec=drec, dsan=dsan, drdt1=drdt1, drdt2=drdt2,
@@ -36,7 +35,7 @@ FixVar<-function(df) {
   df$Var<-as.character(str_trim(df$Var, "right"))
   df$Var<-ifelse(df$Var=="MALALAGHI", "MALALAGI", df$Var)
   df<-left_join(df, dvar, by="Var")
-  df<-mutate(df, Var=ifelse(is.na(Code), Var, Code))
+  df<-mutate(df, Var = ifelse(is.na(Code), Var, Code))
   return(df)
 }
 ldf<-lapply(ldf, FixVar)
@@ -72,3 +71,16 @@ comb<-separate(comb, 1, c("AN", "Parcelle", "Var"))
 comb<-left_join(comb, dplyr::select(dvar, -Var), by=c("Var"="Code"))
 comb$AN<-as.integer(comb$AN)
 
+#comb = dplyr::mutate(comb,Zone)
+comb<-mutate(comb , Zone = (
+  ifelse( comb$Parcelle=="AB", "GT",
+          (ifelse( comb$Parcelle=="BA", "BT",
+          ifelse( comb$Parcelle=="Godet", "GT",
+          ifelse( comb$Parcelle=="GO", "BT",
+          ifelse( comb$Parcelle=="Duclos", "GT",
+          ifelse( comb$Parcelle=="GB", "MG",
+          ifelse( comb$Parcelle=="LA", "BT",
+          ifelse( comb$Parcelle=="LM", "GT",
+          ifelse( comb$Parcelle=="MO", "GT",
+          ifelse( comb$Parcelle=="Roujol", "BT",
+          ifelse( comb$Parcelle=="SF", "GT",""))))))))))))))

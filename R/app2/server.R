@@ -68,7 +68,7 @@ server = function(input,output,session)
                  
                  bdd = ldf
                  f=filtre_all(bdd = bdd,list_esp = list_espe ,list_zone = list_zone)
-                 output$table2 = renderTable( f[[2]] )
+                 output$table2 = renderTable( f[[4]] )
                  print( f[[2]] )
                  information_user[l,6]=1
                  
