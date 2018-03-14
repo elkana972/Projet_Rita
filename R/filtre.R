@@ -5,9 +5,8 @@ source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/matrice_indicateur/C
 
 
 
-
 # Get the libraries
-packs <- c("dplyr", "ggplot2", "tidyr", "viridis", "scales")
+packs <- c("dplyr", "ggplot2", "tidyr", "viridis", "scales","Rcpp")
 InstIfNec<-function (pack) {
   if (!do.call(require,as.list(pack))) {
     do.call(install.packages,as.list(pack))  }
@@ -164,13 +163,66 @@ l_zn=list("BT","GT")
 # l_zn[["BT"]]="MG"
 m=ldf
 v=filtre_all1(bdd = m ,list_esp = l_esp,list_zone = l_zn)
+
+
 prod =v[["prod"]]
 res =v[["res"]]
 cons =v[["cons"]]
 adv =v[["adv"]]
 
-# normalisation 
 
+# normalisation 
+# remplacer les valeurs manquantes par 0
+
+prod[is.na(prod)] <- 0
+I1_max = max(prod$I1.1)
+I2_max = max(prod$I1.2)
+I3_max = max(prod$I1.3)
+I4_max = max(prod$I1.4)
+
+I1.1 = as.vector(prod$I1.1)
+I1.2 = as.vector(prod$I1.2)
+I1.3 = as.vector(prod$I1.3)
+I1.4 = as.vector(prod$I1.4)
+
+res[is.na(res)] <- 0
+I21_max = max( res$I2.1)
+I22_max = max( res$I2.2)
+
+I21 = as.vector(res$I2.1)
+I22 = as.vector(res$I2.2)
+
+cons[is.na(cons)] <- 0
+I31_max = max( cons$I3.1)
+I31 = as.vector(cons$I3.1)
+
+adv[is.na(adv)] <- 0
+I51_max = max(adv$I5.1)
+I51 = as.vector(adv$I5.1)
+
+
+cppFunction('NumericVector norm_i(NumericVector I ,double i_max) {
+    int n = I.size();
+    NumericVector I_n(n);
+    for(int i=0; i<n ; i++)
+            {
+              I_n[i] = I[i]/i_max;
+            }
+
+  return I_n;
+}')
+
+I1.1 = norm_i(I1.1,I1_max)
+I1.2 = norm_i(I1.2,I2_max)
+I1.3 = norm_i(I1.3,I3_max)
+I1.4 = norm_i(I1.4,I4_max)
+
+I21 = norm_i(I21,I21_max)
+I22 = norm_i(I22,I22_max)
+
+I31 = norm_i(I31,I31_max)
+
+I51 = norm_i(I51,I51_max)
 
 # print(v[[2]])
 
