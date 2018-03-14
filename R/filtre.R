@@ -135,13 +135,13 @@ filtre_all1=function(bdd,list_esp,list_zone)
   
   combi = subset(comb,Sp %in% list_esp & Zone %in% list_zone)
   print(length(rownames(combi)))
-  # list_ind=list(prod = prod , res = res , cons = conservation , adv = adv)
-  # print(length(rownames(adv)))
-  
-  
-  
-  # return(list_ind)
-  
+  list_ind=list(prod = prod , res = res , cons = conservation , adv = adv)
+  print(length(rownames(adv)))
+
+
+
+  return(list_ind)
+
 }
 
 
@@ -164,10 +164,10 @@ l_zn=list("BT","GT")
 # l_zn[["BT"]]="MG"
 m=ldf
 v=filtre_all1(bdd = m ,list_esp = l_esp,list_zone = l_zn)
-# prod =v[["prod"]]
-# res =v[["res"]]
-# cons =v[["cons"]]
-# adv =v[["adv"]]
+prod =v[["prod"]]
+res =v[["res"]]
+cons =v[["cons"]]
+adv =v[["adv"]]
 
 # normalisation 
 
