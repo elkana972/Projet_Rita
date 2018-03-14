@@ -104,13 +104,13 @@ filtre_all1=function(bdd,list_esp,list_zone)
   em<-f[["deme"]]
   san<-f[["dsan"]]
   #print(san)
-  #rec<-f[["drec"]]
+  rec<-f[["drec"]]
   
   production = production(rdt1,rdt2,pla,em)
   prod = production[[1]]
   conservation = conservation(production[[2]])
   res=resistance(san = san)
-  source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/matrice_indicateur/adventice.R")
+  source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/matrice_indicateur/adventice.R",local = TRUE )
   adv = resEm
   
   # # #indicateurs 
@@ -131,16 +131,16 @@ filtre_all1=function(bdd,list_esp,list_zone)
   print(length(rownames(prod)))
   print(length(rownames(res)))
   print(length(rownames(conservation)))
-  print(length(rownames(resEm)))
+  # print(length(rownames(resEm)))
   
   combi = subset(comb,Sp %in% list_esp & Zone %in% list_zone)
   print(length(rownames(combi)))
-  list_ind=list(prod = prod , res = res , cons = conservation , adv = adv)
+  # list_ind=list(prod = prod , res = res , cons = conservation , adv = adv)
   # print(length(rownames(adv)))
   
   
   
-  return(list_ind)
+  # return(list_ind)
   
 }
 
@@ -164,10 +164,10 @@ l_zn=list("BT","GT")
 # l_zn[["BT"]]="MG"
 m=ldf
 v=filtre_all1(bdd = m ,list_esp = l_esp,list_zone = l_zn)
-prod =v[["prod"]]
-res =v[["res"]]
-cons =v[["cons"]]
-adv =v[["adv"]]
+# prod =v[["prod"]]
+# res =v[["res"]]
+# cons =v[["cons"]]
+# adv =v[["adv"]]
 
 # normalisation 
 

@@ -10,14 +10,6 @@ lapply(packs, InstIfNec)
 #source('/srv/shiny-server/sample-apps/Projet_Rita/R/model.R')
 
 
-# 1. Duree d'emergence ----------------------
-em<-ldf[["deme"]]
-
-# Ajout du nombre de plants plantes au fichier d'emergence
-pla<-ldf[["dpla"]]
-
-# 2. Recouvrement ----------------------
-rec<-ldf[["drec"]]
 
 
 # Suppression des modeles errones
