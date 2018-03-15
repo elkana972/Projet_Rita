@@ -149,18 +149,7 @@ choose_zone_espece=function(bdd,list_esp,list_zn)
   filtre = subset(bdd,Sp.x %in% list_esp & Zone %in% list_zn)
 }
 
-#faire des tests dans le terminal avant de passer à la partie graphique
-#l_esp= list("Da","Dcr")
-l_esp= list("Da")
 
-# l_esp[["Da"]]="Da"
-# l_esp[["Dcr"]]="Dcr"
-
-l_zn=list("BT","GT")
-#l_zn=list("MG")
-# l_zn[["GT"]]="GT"
-# l_zn[["BT"]]="BT"
-# l_zn[["BT"]]="MG"
 
 normalisation = function(bdd)
 {
@@ -230,6 +219,20 @@ normalisation = function(bdd)
       
 }
 
+#faire des tests dans le terminal avant de passer à la partie graphique
+#l_esp= list("Da","Dcr")
+l_esp= list("Dcr")
+
+# l_esp[["Da"]]="Da"
+# l_esp[["Dcr"]]="Dcr"
+
+l_zn=list("BT","GT")
+#l_zn=list("MG")
+# l_zn[["GT"]]="GT"
+# l_zn[["BT"]]="BT"
+# l_zn[["BT"]]="MG"
+
+
 m=ldf
 v=filtre_all1(bdd = m ,list_esp = l_esp,list_zone = l_zn)
 nor = normalisation(v)
@@ -239,7 +242,7 @@ variete = levels( as.factor(nor$Var))
 vari=as.array(variete)
 
 size_var = length(variete)
-classement_var = matrix(0, nrow = 1, ncol = 28)
+classement_var = matrix(0, nrow = 28, ncol = 1)
 v=0
 for (i in 1:size_var)
 {  
@@ -258,7 +261,11 @@ for (i in 1:size_var)
   # print ( sum_indicateur )
 
 }
-print(v)
+
+print(classement_var)
+cl=as.data.frame(classement_var)
+vr=as.data.frame(vari)
+c22<-mutate(vr,cl$V1)
 # tri_variete=function(nor , variete)
 # {
 #  
