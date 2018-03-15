@@ -238,17 +238,41 @@ nor = normalisation(v)
 variete = levels( as.factor(nor$Var))
 vari=as.array(variete)
 
+size_var = length(variete)
+classement_var = matrix(0, nrow = 1, ncol = 28)
+v=0
+for (i in 1:size_var)
+{  
+  v = subset(nor, Var %in% variete[i])
+  v = as.data.frame(v[,6:11])
+  sum_sous_indicateur = dplyr::summarise_all(v,funs(sum))
+  v = sum_sous_indicateur
+  # resultat pour une variete 
+  
+  rendement = sum(v[1,1:4])/4 
+  # resistance à faire
+  conserv= sum(v[1,5])/1 # sera modifié apres
+  advent = sum(v[1,6])/1 # sera modifié apres
+  sum_indicateur = (rendement + conserv + advent) / 3 
+  classement_var[i] = sum_indicateur
+  # print ( sum_indicateur )
 
-tri_variete=function(nor,variete)
-{
-  subset(nor, Var %in% variete)
 }
-
-
-lapply(nor,tri_variete,variete = vari) 
-
+print(v)
+# tri_variete=function(nor , variete)
+# {
+#  
+#   print(nor)
+#   print(variete)
+#   f = subset(nor, Var %in% variete)
+#   return(f)
+# 
+# }
+# 
+# nor1 = as.matrix(nor)
+# 
+# lapply(nor1[,1:11] , FUN = tri_variete , variete = vari ) 
 
 # print(v[[2]])
-
 # problèmes rencontrés avec les filtres
 #  (Dcr / GT) || (Da / GT) || (Da-Dcr / MG) : resistance 
