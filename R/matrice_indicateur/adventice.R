@@ -1,10 +1,4 @@
-# Loading libraries
-packs <- c("drc")
-InstIfNec<-function (pack) {
-  if (!do.call(require,as.list(pack))) {
-    do.call(install.packages,as.list(pack))  }
-  do.call(require,as.list(pack)) }
-lapply(packs, InstIfNec)
+
 
 # Loading Data
 #source('/srv/shiny-server/sample-apps/Projet_Rita/R/model.R')

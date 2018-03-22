@@ -105,41 +105,42 @@ filtre_all1=function(bdd,list_esp,list_zone)
   #print(san)
   rec<-f[["drec"]]
   
-  production = production(rdt1,rdt2,pla,em)
-  prod = production[[1]]
-  conservation = conservation(production[[2]])
-  res=resistance(san = san)
-  source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/matrice_indicateur/adventice.R",local = TRUE )
-  adv = resEm
-  
-  # # #indicateurs 
-  # # # production
-  prod$I1.1
-  prod$I1.2
-  prod$I1.3
-  prod$I1.4
-  
-  res$I2.1
-  res$I2.2
-  
-  conservation$I3.1
-  
-  # #adv$I5.1
-  
-  
-  print(length(rownames(prod)))
-  print(length(rownames(res)))
-  print(length(rownames(conservation)))
-  # print(length(rownames(resEm)))
-  
-  combi = subset(comb,Sp %in% list_esp & Zone %in% list_zone)
-  print(length(rownames(combi)))
-  list_ind=list(prod = prod , res = res , cons = conservation , adv = adv)
-  print(length(rownames(adv)))
-
-
-
-  return(list_ind)
+  # production = production(rdt1,rdt2,pla,em)
+  # prod = production[[1]]
+  # conservation = conservation(production[[2]])
+  # res=resistance(san = san)
+  # source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/matrice_indicateur/adventice.R",local = TRUE )
+  # adv = resEm
+  # 
+  # # # #indicateurs 
+  # # # # production
+  # prod$I1.1
+  # prod$I1.2
+  # prod$I1.3
+  # prod$I1.4
+  # 
+  # res$I2.1
+  # res$I2.2
+  # 
+  # conservation$I3.1
+  # 
+  # # #adv$I5.1
+  # 
+  # 
+  # print(length(rownames(prod)))
+  # print(length(rownames(res)))
+  # print(length(rownames(conservation)))
+  # # print(length(rownames(resEm)))
+  # 
+  # combi = subset(comb,Sp %in% list_esp & Zone %in% list_zone)
+  # print(length(rownames(combi)))
+  # list_ind=list(prod = prod , res = res , cons = conservation , adv = adv)
+  # print(length(rownames(adv)))
+  # 
+  # 
+  # 
+  # return(list_ind)
+  return(f)
 
 }
 
@@ -218,54 +219,55 @@ normalisation = function(bdd)
       return(comb)
       
 }
-
-#faire des tests dans le terminal avant de passer à la partie graphique
-#l_esp= list("Da","Dcr")
-l_esp= list("Dcr")
-
-# l_esp[["Da"]]="Da"
-# l_esp[["Dcr"]]="Dcr"
-
-l_zn=list("BT","GT")
-#l_zn=list("MG")
-# l_zn[["GT"]]="GT"
-# l_zn[["BT"]]="BT"
-# l_zn[["BT"]]="MG"
-
-
-m=ldf
-v=filtre_all1(bdd = m ,list_esp = l_esp,list_zone = l_zn)
-nor = normalisation(v)
-# fonction de ponderation 
-# pondonderation ( nor, note)
-variete = levels( as.factor(nor$Var))
-vari=as.array(variete)
-
-size_var = length(variete)
-classement_var = matrix(0, nrow = 28, ncol = 1)
-v=0
-for (i in 1:size_var)
-{  
-  v = subset(nor, Var %in% variete[i])
-  v = as.data.frame(v[,6:11])
-  sum_sous_indicateur = dplyr::summarise_all(v,funs(sum))
-  v = sum_sous_indicateur
-  # resultat pour une variete 
-  
-  rendement = sum(v[1,1:4])/4 
-  # resistance à faire
-  conserv= sum(v[1,5])/1 # sera modifié apres
-  advent = sum(v[1,6])/1 # sera modifié apres
-  sum_indicateur = (rendement + conserv + advent) / 3 
-  classement_var[i] = sum_indicateur
-  # print ( sum_indicateur )
-
-}
-
-print(classement_var)
-cl=as.data.frame(classement_var)
-vr=as.data.frame(vari)
-c22<-mutate(vr,cl$V1)
+# 
+# #faire des tests dans le terminal avant de passer à la partie graphique
+# #l_esp= list("Da","Dcr")
+# l_esp= list("Da")
+# 
+# # l_esp[["Da"]]="Da"
+# # l_esp[["Dcr"]]="Dcr"
+# 
+# l_zn=list("BT","MG")
+# #l_zn=list("MG")
+# # l_zn[["GT"]]="GT"
+# # l_zn[["BT"]]="BT"
+# # l_zn[["BT"]]="MG"
+# 
+# #scale normalisation
+# m=ldf
+# v=filtre_all1(bdd = m ,list_esp = l_esp,list_zone = l_zn)
+# nor = normalisation(v)
+# # fonction de ponderation 
+# # pondonderation ( nor, note)
+# variete = levels( as.factor(nor$Var))
+# vari=as.array(variete)
+# 
+# size_var = length(variete)
+# classement_var = matrix(0, nrow = 28, ncol = 1)
+# v=0
+# # enlever la boucle for , utiliser length de preference , dplyr 
+# for (i in 1:size_var)
+# {  
+#   v = subset(nor, Var %in% variete[i])
+#   v = as.data.frame(v[,6:11])
+#   sum_sous_indicateur = dplyr::summarise_all(v,funs(sum))
+#   v = sum_sous_indicateur
+#   # resultat pour une variete 
+#   
+#   rendement = sum(v[1,1:4])/4 
+#   # resistance à faire
+#   conserv= sum(v[1,5])/1 # sera modifié apres
+#   advent = sum(v[1,6])/1 # sera modifié apres
+#   sum_indicateur = (rendement + conserv + advent) / 3 
+#   classement_var[i] = sum_indicateur
+#   # print ( sum_indicateur )
+# 
+# }
+# 
+# print(classement_var)
+# cl=as.data.frame(classement_var)
+# vr=as.data.frame(vari)
+# c22<-mutate(vr,cl$V1)
 # tri_variete=function(nor , variete)
 # {
 #  

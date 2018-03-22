@@ -1,4 +1,9 @@
+source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/filtre.R")
+
 library(shinydashboard)
+
+zn=array_zone()
+esp=array_esp()
 
 dashboardPage(
   dashboardHeader(title = "CIRAD" ),
@@ -12,18 +17,49 @@ dashboardPage(
     )
   ),
   dashboardBody( 
+    shinyjs::useShinyjs(),
+    
     tabItems(
       # First tab content
       tabItem(tabName = "accueil",
-              fluidRow(
-               
-                column(5,tags$iframe( width = "500", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/carte_sig/" )),
-                column(5,tags$iframe( width = "560", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/choix_zone_esp/" ))
-                
-                    ),
+              #  
+              #  # column(5,tags$iframe( width = "500", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/carte_sig/" )),
+              #   # column(8,tags$iframe( width = "860", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/choix_zone_esp/" ))
+              #   # 
+              #   #     
+              #   
+              #   box(
+              #     width = 8, height ="530" , status = "info",
+              #   
+              #     tags$iframe(height = "500",width = "800",src = "http://localhost:3838/sample-apps/Projet_Rita/R/choix_zone_esp/" )
+              #   )
+              #   
+              #   # valueBox(value= "dd", color = "aqua", width = 4,
+              #   #          href = "http://localhost:3838/sample-apps/Projet_Rita/R/choix_zone_esp/")
+              #   # 
+              #   )
+              # 
+              # ,
+              # 
+              # fluidRow()
               
+             
+              box(
+                    width = 4, height ="530" , status = "info",
+                    checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn),
+                       
+                    checkboxGroupInput(inputId="espece",label = "Espece",choices = esp ),
+                       
+                       actionButton(inputId="suivant", label="suivant"),
+                       tags$br(),
+                       actionLink(inputId="help", "Aide")
+                ),
               
-              fluidRow()
+              box(
+                width = 8, height ="530" , status = "info",
+                       plotOutput(outputId="carte")
+                )
+              
       ),
       
       # Second tab content
