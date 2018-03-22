@@ -1,12 +1,13 @@
 # Loading Data
-#source('/srv/shiny-server/sample-apps/Projet_Rita/R/model.R')
+# source('~/R/R projects/RITA2_VaPaDonF/R/VarName_suite.R')
+# source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/model.R")
+# san<-ldf[["dsan"]]
 
-# Loading Data
+
 resistance = function(san)
 {
-    san=san
-   
-    sans<-dplyr::summarize(group_by(san, AN, Parcelle, Var, Cause_Mal),
+
+    sans<-summarize(group_by(san, AN, Parcelle, Var, Cause_Mal),
                     IDM=max(IDM),
                     JAP_san=max(Date_Obs_Mal_JAP))
     sans<-left_join(sans, dplyr::select(dvar, -Var), by=c("Var"="Code"))
@@ -20,5 +21,4 @@ resistance = function(san)
     sans<-left_join(comb, sans, by=c("AN", "Parcelle", "Var", "Sp"))
     sans[is.na(sans)] <- 0
     return(sans)
-
 }

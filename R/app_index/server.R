@@ -180,8 +180,8 @@ server <- function(input, output) {
                  bdd = ldf
                  f=filtre_all1(bdd = bdd,list_esp = list_espe ,list_zone = list_zone)
                  #output$table2 = renderTable( f[[2]] )
-                 print( f[[7]] )
-                 
+                 #print( f[[7]] )
+                 n = normalisation(f , list_esp = list_espe ,list_zone = list_zone)
                  inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user2.csv",row.names=FALSE,  sep = ";",dec = "," , na = "0")
                  
                  # output$table = renderTable(information_user)
