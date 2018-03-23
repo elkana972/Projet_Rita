@@ -104,7 +104,7 @@ server = function(output,input)
                  
                  # traitement avec les filtres
                  bdd = ldf
-                 f=filtre_all(bdd = bdd,list_esp = list_espe ,list_zone = list_zone)
+                 f=filtre_all1(bdd = bdd,list_esp = list_espe ,list_zone = list_zone)
                  #output$table2 = renderTable( f[[2]] )
                  print( f[[2]] )
                  

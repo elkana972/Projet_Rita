@@ -7,7 +7,10 @@ InstIfNec<-function (pack) {
   do.call(require,as.list(pack)) }
 lapply(packs, InstIfNec)
 
+
+
 server <- function(input, output) { 
+  
   
   observeEvent(input$help, {
     shinyjs::alert("Veuillez sélectionner au moins une zone et une espèce")
@@ -83,9 +86,9 @@ server <- function(input, output) {
     z=input$zone
     taille_e=length(e)
     taille_z=length(z)
-    str(e)
-    str(z)
-    
+    #str(e)
+    #str(z)
+  
     shinyjs::toggleState(id="suivant",taille_e>0 && taille_z>0)
   })
   ############################################################
@@ -97,11 +100,11 @@ server <- function(input, output) {
   #action générée quand l'utilisateur va cliquer sur suivant
   observeEvent(input$suivant,
                {
+                 information_user <- read.table("/srv/shiny-server/sample-apps/Projet_Rita/output/information_user2.csv" , header=TRUE, sep=";", stringsAsFactors = FALSE)  
                  # output$erreur=renderText({"Veuillez saisir au moins une zone"})
                  #traitement
-                 information_user <- read.table("/srv/shiny-server/sample-apps/Projet_Rita/output/information_user2.csv" , header=TRUE, sep=";", stringsAsFactors = FALSE)  
                  l=length(row.names( information_user  ))
-                 print(l)
+                 #print(l)
                  zn=input$zone
                  e=input$espece
                  
@@ -143,7 +146,7 @@ server <- function(input, output) {
                    
                  }                   
                  
-                 print(information_user)
+                 # print(information_user)
                  # mise en place du vecteur zone et espece pour utiliser dans la fonction filtre
                  list_espe=list()
                  list_zone=list()
@@ -173,8 +176,8 @@ server <- function(input, output) {
                    list_espe[["Dcr"]]="Dcr"
                  }
                  
-                 print(list_espe)
-                 print(list_zone)
+                 #print(list_espe)
+                 #print(list_zone)
                  
                  # traitement avec les filtres
                  bdd = ldf
@@ -183,9 +186,10 @@ server <- function(input, output) {
                  #print( f[[7]] )
                  n = normalisation(f , list_esp = list_espe ,list_zone = list_zone)
                  inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user2.csv",row.names=FALSE,  sep = ";",dec = "," , na = "0")
+                 #output$table=renderTable(information_user)
                  
+                 output$classement = renderTable(n)
                  # output$table = renderTable(information_user)
-                 
                  
                  #source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/app1/ui.R",local = TRUE)
                  

@@ -6,8 +6,6 @@ information_user <- read.table("/srv/shiny-server/sample-apps/Projet_Rita/output
 l=length(row.names( information_user  ))
 valider=information_user[l,6]
 
-a=47
-print(a)
 
 server=function(input,output,session)
 {

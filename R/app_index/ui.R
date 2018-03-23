@@ -43,23 +43,62 @@ dashboardPage(
               # 
               # fluidRow()
               
-             
-              box(
-                    width = 4, height ="530" , status = "info",
-                    checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn),
-                       
-                    checkboxGroupInput(inputId="espece",label = "Espece",choices = esp ),
-                       
-                       actionButton(inputId="suivant", label="suivant"),
-                       tags$br(),
-                       actionLink(inputId="help", "Aide")
+              # sidebarPanel(
+              # conditionalPanel
+              # (
+                # condition = "input.suivant == false ",
+                    box(
+                          width = 4, height ="530" , status = "info",
+                          checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn),
+                             
+                          checkboxGroupInput(inputId="espece",label = "Espece",choices = esp ),
+                             
+                             actionButton(inputId="suivant", label="suivant"),
+                              actionButton(inputId="initialiser", label="initialiser"),
+                             tags$br(),
+                             actionLink(inputId="help", "Aide")
+                      ),
+             # ),
+                              
+
+
+                 conditionalPanel
+                  (
+                    condition = "input.suivant == false || input.initialiser == true",
+                     box(
+                       width = 8, height ="530" , status = "info",
+                              plotOutput(outputId="carte")
+                       )
                 ),
-              
-              box(
-                width = 8, height ="530" , status = "info",
-                       plotOutput(outputId="carte")
+
+              conditionalPanel
+              (
+                condition = "input.suivant == true  ",
+                box(
+                  width = 8, status = "info"
+                  ,tableOutput(outputId='classement')
                 )
-              
+              )
+
+# 
+#  conditionalPanel
+#   (
+#     condition = "input.suivant == false || input.initialiser == true",
+#      box(
+#        width = 8, height ="530" , status = "info",
+#               plotOutput(outputId="carte")
+#        ),
+# 
+#     conditionalPanel
+#     (
+#       condition = "input.suivant == true  ",
+#       box(
+#         width = 8, status = "info"
+#         ,tableOutput(outputId='classement')
+#       )
+#     )
+# )
+
       ),
       
       # Second tab content
@@ -79,3 +118,22 @@ dashboardPage(
   ),
   skin = "green"
 )
+
+
+
+
+# conditionalPanel(
+#   condition = "input.plotType == 'hist'",
+#   selectInput(
+#     "breaks", "Breaks",
+#     c("Sturges",
+#       "Scott",
+#       "Freedman-Diaconis",
+#       "[Custom]" = "custom")),
+#   
+#   # Only show this panel if Custom is selected
+#   conditionalPanel(
+#     condition = "input.breaks == 'custom'",
+#     sliderInput("breakCount", "Break Count", min=1, max=1000, value=10)
+#   )
+# )

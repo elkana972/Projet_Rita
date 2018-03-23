@@ -89,7 +89,8 @@ filtre_all=function(bdd,list_esp,list_zone)
   
 }
 
-
+ScalingFct<-function(x) { ifelse(diff(range(x, na.rm=T))==0, .5,
+                                 (x-min(x, na.rm=T))/diff(range(x, na.rm=T))) }
 
 filtre_all1=function(bdd,list_esp,list_zone)
 {
@@ -160,26 +161,90 @@ normalisation = function(bdd,list_esp,list_zone)
   #conservation
   cons = conservation(pla)
   
+  print(cons)
   #resistance 
-  res = resistance(san)
+  sans = resistance(san)
   
   #adventice 
-    
-  rdt = subset(rdt,Sp %in% list_esp & Zone %in% list_zone)
-  pla = subset(cons,Sp %in% list_esp & Zone %in% list_zone)
-  sans = subset(res,Sp %in% list_esp & Zone %in% list_zone)
+  
+  #if(res > 0)
+  #{
+      rdt = subset(rdt,Sp %in% list_esp & Zone %in% list_zone)
+      #
+      pla = subset(cons,Sp %in% list_esp & Zone %in% list_zone)
+      #
+      sans = subset(sans,Sp %in% list_esp & Zone %in% list_zone)
+
+      print(length(rownames(rdt)))
+
+      print(length(rownames(pla)))
+
+      print(length(rownames(sans)))
+      
+      #print(res)
+      # Merge constraints df
+      ind<-left_join(rdt, sans, by=c("AN", "Zone", "Parcelle", "Sp", "Var"))
+      ind<-left_join(ind, pla, by=c("AN", "Zone", "Parcelle", "Sp", "Var"))
+      
+     # print(ind)
+      
+  # }else
+  # {
+  #   rdt = subset(rdt,Sp %in% list_esp & Zone %in% list_zone)
+  #   
+  #   pla = subset(cons,Sp %in% list_esp & Zone %in% list_zone)
+  # 
+  #   
+  #   print(length(rownames(rdt)))
+  #   
+  #   print(length(rownames(pla)))
+  #   
+  #   #print(res)
+  #   # Merge constraints df
+  #   ind<-left_join(ind, pla, by=c("AN", "Zone", "Parcelle", "Sp", "Var"))
+  # }
+  
+  # Scaling Subindicators between 0-1 for each situation
+  # scaling by situation in order not to favor variety 
+  # not evaluated in poor situation (e.g. SF)
+  
+  ind<-mutate_at(group_by(ind, AN, Zone, Parcelle, Sp), vars(contains("I")),
+                 ScalingFct)
   
   
-  print(length(rownames(rdt)))
-  print(length(rownames(pla)))
-  print(length(rownames(sans)))
+  #Polarization of subindicators
+  indg<-gather(ind, SubInd, Value, starts_with("I"))
+  NegSubInd<-c("I1.3", "I1.4", "I2.1", "I2.1", "I3.2")
+  indg$Value<-ifelse(indg$SubInd %in% NegSubInd, 1-indg$Value, indg$Value)
+
+  # Estimating Indicator scores (mean of subindicators)
+  indg<-separate(indg, col=SubInd, into=c("Ind", "SubIn"), sep="\\.")
+  indgs<-dplyr::summarize(group_by(indg, AN, Zone, Parcelle, Sp, Var, Ind),
+                          IndScores=mean(Value, na.rm=T))
+
+  # Multiply each indicator by its weight (coming from farmers prioritization)
+  # !!!!!!!!!!!!!!!!!!!!! Elkana
+  prior<-data.frame(Ind=c("I1", "I2", "I3", "I4", "I5"), Prio=c(1,1,1,1,1))
+  # !!!!!!!!!!!!!!!!
+  indgs<-left_join(indgs, prior, by="Ind")
+  indgs$IndScoresPrior<-indgs$IndScores*indgs$Prio
+
+  # Estimatin situation score (sum of weighted indicators for each situation)
+  indgs<-dplyr::summarize(group_by(indgs, AN, Zone, Parcelle, Sp, Var),
+                          SitScore=sum(IndScoresPrior))
+
+  # Estimatin Varietal score (mean between situations)
+  indgs<-dplyr::summarize(group_by(indgs, Sp, Var),
+                          VarScore=mean(SitScore, na.rm=T),
+                          N=sum(!is.na(SitScore)),
+                          SD_VarScore=sd(SitScore, na.rm=T))
   
-  #print(res)
-  # Merge constraints df
-  ind<-left_join(rdt, sans, by=c("AN", "Zone", "Parcelle", "Sp", "Var"))
-  ind<-left_join(ind, pla, by=c("AN", "Zone", "Parcelle", "Sp", "Var"))
-  print(ind)
-  
+  # Sort data by score and selecty usefull variables
+  dffinal<-dplyr::select(ungroup(indgs), Var,  VarScore)
+  colnames(dffinal)<-c("Variété", "Score")
+
+  #print(indgs)
+  return(dffinal)
   #print(cons)
   # rdt1<-bdd[["drdt1"]]
   # rdt2<-bdd[["drdt2"]]
