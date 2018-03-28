@@ -1,6 +1,6 @@
 # Loading libraries
 packs <- c("plotKML", "maptools", "ggmap", "ggthemes", "ggsn", "stringr",
-           "raster", "tidyverse", "broom","shinydashboard")
+           "raster", "tidyverse", "broom","shinydashboard","leaflet","raster")
 InstIfNec<-function (pack) {
   if (!do.call(require,as.list(pack))) {
     do.call(install.packages,as.list(pack))  }
@@ -16,70 +16,27 @@ server <- function(input, output) {
     shinyjs::alert("Veuillez sélectionner au moins une zone et une espèce")
   })
   
-  ############################################################
-  # utilisation de la carte
+
   
-  # Get gwad county boudaries
-  gwad<-getData('GADM', country='GLP', level=2) # Adding administrative border
-  
-  # Get data of tuber production by county ()
-  dftub<-read.csv("/opt/shiny-server/samples/sample-apps/Projet_Rita/data/Agreste2010_Gwad_Commune.csv", sep=";", dec=",",header=T,fileEncoding = "latin1")
-  
-  # Get centroid for each county label
-  cnames<-as.data.frame(coordinates(gwad))
-  colnames(cnames)<-c("lon", "lat")
-  cnames$Commune<-unique(gwad$NAME_2)
-  
-  # Merge centroid with tuber production by county data (AGRESTE 2010)
-  # Check Commune name matching
-  com<-which(levels(as.factor(cnames$Commune))!=levels(dftub$Commune))
-  levels(dftub$Commune)[com]
-  levels(as.factor(cnames$Commune))[com]
-  dftub$Commune<-str_to_title(as.character(dftub$Commune))
-  cnames$Commune<-str_to_title(cnames$Commune)
-  levels(as.factor(cnames$Commune))==levels(as.factor(dftub$Commune))
-  dftubc<-left_join(cnames, dftub, by="Commune")
-  
-  # Extract df from SpatialPolygonsDataframe
-  gwad.fort<-tidy(gwad, region="NAME_2")
-  
-  # Merge both df
-  gwad.fort$id<-str_to_title(gwad.fort$id)
-  gwad.fort<-left_join(gwad.fort, dftubc, by=c("id"="Commune"))
-  gwad.fort$SurfTub.2010<-as.numeric(as.character(gwad.fort$SurfTub.2010))
-  gwad.fort$SurfTub.2000<-as.numeric(as.character(gwad.fort$SurfTub.2000))
-  
-  # Save dataframe
-  saveRDS(gwad.fort, "/opt/shiny-server/samples/sample-apps/Projet_Rita/data/GwadBound_TubData.rds" )
-  
-  # Plot map (chorochromatique)
-  ggplot(data=gwad.fort, aes(long, lat.x, group=group, fill=Sample)) + 
-    geom_polygon(colour='black') +
-    theme_map()+
-    geom_text(aes(lon, lat.y, label=id), size=2) +
-    coord_map()+
-    theme(legend.position="bottom")
-  
-  # Plot map (choroplethe)
-  g=ggplot(data=gwad.fort, aes(long, lat.x, group=group, fill=SurfTub.2010)) + 
-    geom_polygon(colour='black') +
-    theme_map()+
-    coord_map()+
-    theme(legend.position=c(.9,.1))+
-    scale_fill_continuous("Tuber crops\narea (ha)", low="yellow", high="brown",
-                          na.value=NA)+
-    ggtitle("Root and tuber crops area by county in Guadeloupe (Agreste 2010)")+
-    ggsn::scalebar(dist=20, y.max=16.54391, x.min=-61.916175, 
-                   y.min=15.790233, x.max=-60.848110, dd2km=T, model=("WGS84"),
-                   anchor=c(x=-60.9, y=16.5), st.size=3)
-  
-  output$carte = renderPlot({
-    plot(g)
+  gwad0<-getData('GADM', country='GLP', level=1) # Adding administrative border
+  gwad0@data$ID_0<-c("Basse-Terre", "Grande-Terre et Marie-Galante")
+  gwad0 <- spChFIDs(gwad0, as.character(gwad0$ID_0))
+  row.names(as(gwad0, "data.frame"))
+
+  output$carte = renderLeaflet({
+      leaflet(gwad0) %>%
+        addPolygons(color="#444444", weight=1, smoothFactor=.5,
+                    opacity=1, fillOpacity=.5, label=~as.character(ID_0),
+                    fillColor=~colorQuantile("YlOrRd", OBJECTID)(OBJECTID),
+                    highlightOptions=highlightOptions(color="green", weight=3,
+                                                      bringToFront=T),
+                    labelOptions=labelOptions(clickable=T, offset=c(10,-18)))
   })
   
   ############################################################
   
   ############################################################
+ # observeEvent( input$, {foo})
   observe({
     
     e=input$espece
@@ -96,7 +53,6 @@ server <- function(input, output) {
   
   
   ############################################################
-  
   #action générée quand l'utilisateur va cliquer sur suivant
   observeEvent(input$suivant,
                {
@@ -107,7 +63,13 @@ server <- function(input, output) {
                  #print(l)
                  zn=input$zone
                  e=input$espece
-                 
+                 rdt = input$note_rendement
+                 res = input$note_resistance
+                 cons = input$note_conservation
+                 qual = input$note_qualite
+                 adv = input$note_adventice
+                 cat("rdt ",rdt," adv ",adv)
+                 poids_indicateur = c(rdt,res,cons,qual,adv)
                  information_user[l+1,1]=0
                  information_user[l+1,2]=0
                  information_user[l+1,3]=0
@@ -184,7 +146,11 @@ server <- function(input, output) {
                  f=filtre_all1(bdd = bdd,list_esp = list_espe ,list_zone = list_zone)
                  #output$table2 = renderTable( f[[2]] )
                  #print( f[[7]] )
-                 n = normalisation(f , list_esp = list_espe ,list_zone = list_zone)
+                 #print(poids_indicateur
+                 
+                 cat(" test ",rdt,res,cons,qual,adv)
+                 
+                 n = normalisation(f , list_esp = list_espe ,list_zone = list_zone,rdt,res,cons,qual,adv )
                  inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user2.csv",row.names=FALSE,  sep = ";",dec = "," , na = "0")
                  #output$table=renderTable(information_user)
                  

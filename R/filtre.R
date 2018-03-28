@@ -17,6 +17,12 @@ lapply(packs, InstIfNec)
 
 #bdd=model()
 
+array_note = function()
+{
+  mat <- matrix(data = 1:5,nrow=5, ncol=1)
+  return(mat)
+}
+
 array_zone = function()
 {  
   
@@ -142,7 +148,7 @@ filtre_all1=function(bdd,list_esp,list_zone)
   return(f)
 }
 
-normalisation = function(bdd,list_esp,list_zone)
+normalisation = function(bdd,list_esp,list_zone,sco_rdt,sco_res,sco_cons,sco_qual,sco_adv)
 {
   
   rdt1<-bdd[["drdt1"]]
@@ -223,8 +229,10 @@ normalisation = function(bdd,list_esp,list_zone)
                           IndScores=mean(Value, na.rm=T))
 
   # Multiply each indicator by its weight (coming from farmers prioritization)
-  # !!!!!!!!!!!!!!!!!!!!! Elkana
-  prior<-data.frame(Ind=c("I1", "I2", "I3", "I4", "I5"), Prio=c(1,1,1,1,1))
+  # !!!!!!!!!!!!!!!!!!!!! Elkan
+  
+  cat("    ",sco_rdt,sco_res,sco_cons,sco_qual,sco_adv)
+  prior<-data.frame(Ind=c("I1", "I2", "I3", "I4", "I5"), Prio=c(as.integer(sco_rdt),as.integer(sco_res),as.integer(sco_cons),as.integer(sco_qual),as.integer(sco_adv)) )
   # !!!!!!!!!!!!!!!!
   indgs<-left_join(indgs, prior, by="Ind")
   indgs$IndScoresPrior<-indgs$IndScores*indgs$Prio

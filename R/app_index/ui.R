@@ -4,6 +4,7 @@ library(shinydashboard)
 
 zn=array_zone()
 esp=array_esp()
+note = array_note()
 
 dashboardPage(
   dashboardHeader(title = "CIRAD" ),
@@ -12,6 +13,8 @@ dashboardPage(
     sidebarMenu(
       menuItem("Accueil", tabName = "accueil",icon = icon("home")),
       menuItem("Fiche varietales", tabName = "fiche",   icon = icon("th")),
+      menuItem("meteo", tabName = "meteo",   icon = icon("th")),
+      
       menuItem("Aide", tabName = "aide",icon = icon("life-ring")),
       menuItem("Contact", tabName = "contact",icon = icon("question"))
     )
@@ -38,7 +41,7 @@ dashboardPage(
               #   #          href = "http://localhost:3838/sample-apps/Projet_Rita/R/choix_zone_esp/")
               #   # 
               #   )
-              # 
+              
               # ,
               # 
               # fluidRow()
@@ -48,37 +51,47 @@ dashboardPage(
               # (
                 # condition = "input.suivant == false ",
                     box(
-                          width = 4, height ="530" , status = "info",
+                          width = 3 , status = "info",
                           checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn),
                              
                           checkboxGroupInput(inputId="espece",label = "Espece",choices = esp ),
+                          selectInput(inputId="note_rendement",label="Rendement",choices = note),
+                          selectInput(inputId="note_resistance",label="Résistance",choices = note),
+                          selectInput(inputId="note_conservation",label="Conservation",choices = note),
+                          selectInput(inputId="note_qualite",label="Qualité",choices = note),
+                          selectInput(inputId="note_adventice",label="Adventices",choices = note),
                              
                              actionButton(inputId="suivant", label="suivant"),
                               actionButton(inputId="initialiser", label="initialiser"),
                              tags$br(),
                              actionLink(inputId="help", "Aide")
                       ),
-             # ),
+            
                               
 
 
-                 conditionalPanel
-                  (
-                    condition = "input.suivant == false || input.initialiser == true",
+                # conditionalPanel
+                #  (
+                #    condition = "input.suivant == false || input.initialiser == true",
                      box(
-                       width = 8, height ="530" , status = "info",
-                              plotOutput(outputId="carte")
-                       )
-                ),
+                       width = 6, height ="530" , status = "info",
+                       leaflet::leafletOutput(outputId="carte", width = "100%", height = "500")
+                       ),
+                # ),
 
-              conditionalPanel
-              (
-                condition = "input.suivant == true  ",
-                box(
-                  width = 8, status = "info"
-                  ,tableOutput(outputId='classement')
-                )
-              )
+                    box(
+                      width = 3 , status = "info" ,
+                      tableOutput(outputId='classement')
+                    )
+      
+              # conditionalPanel
+              # (
+              #   condition = "input.suivant == true  ",
+              #   box(
+              #     width = 8, status = "info"
+              #     ,tableOutput(outputId='classement')
+              #   )
+              # )
 
 # 
 #  conditionalPanel
@@ -105,6 +118,11 @@ dashboardPage(
       tabItem(tabName = "fiche",
               h2("fiche")
       ),
+
+      tabItem(tabName = "meteo",
+              column(12,tags$iframe( width = "900", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/meteo/" ))
+      ),
+
       
       tabItem(tabName = "aide",
               h2("aide")
