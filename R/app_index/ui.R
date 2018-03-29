@@ -6,6 +6,7 @@ zn=array_zone()
 esp=array_esp()
 note = array_note()
 notation = notation_qualita()
+n=notation$libelle
 
 dashboardPage(
   dashboardHeader(title = "CIRAD" ),
@@ -56,11 +57,11 @@ dashboardPage(
                           checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn),
                              
                           checkboxGroupInput(inputId="espece",label = "Espece",choices = esp ),
-                          selectInput(inputId="note_rendement",label="Rendement",choices = notation),
-                          selectInput(inputId="note_resistance",label="Résistance",choices = notation),
-                          selectInput(inputId="note_conservation",label="Conservation",choices = notation),
-                          selectInput(inputId="note_qualite",label="Qualité",choices = notation),
-                          selectInput(inputId="note_adventice",label="Adventices",choices = notation),
+                          selectInput(inputId="note_rendement",label="Rendement",choices = n),
+                          selectInput(inputId="note_resistance",label="Résistance",choices = n),
+                          selectInput(inputId="note_conservation",label="Conservation",choices = n),
+                          selectInput(inputId="note_qualite",label="Qualité",choices = n),
+                          selectInput(inputId="note_adventice",label="Adventices",choices = n),
                              
                              actionButton(inputId="suivant", label="suivant"),
                               actionButton(inputId="initialiser", label="initialiser"),

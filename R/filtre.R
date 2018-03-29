@@ -26,8 +26,8 @@ array_note = function()
 notation_qualita = function()
 {
   notation = data.frame(note=c(1,2,3,4,5),libelle=c("insuffisant","très moyen","moyen","bien","très bien") )
-  n=notation$libelle
-  return(n)
+
+  return(notation)
 }
 
 array_zone = function()

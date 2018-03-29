@@ -62,13 +62,31 @@ server <- function(input, output) {
                  #traitement
                  l=length(row.names( information_user  ))
                  #print(l)
+                 source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/filtre.R")
+                 
+                 notation = notation_qualita()
+                
                  zn=input$zone
                  e=input$espece
+                 
                  rdt = input$note_rendement
+                 rdt = which(notation$libelle==rdt)
+                 
+      
                  res = input$note_resistance
+                 res = which(notation$libelle==res)
+                 
                  cons = input$note_conservation
+                 cons = which(notation$libelle==cons)
+                 
                  qual = input$note_qualite
+                 qual = which(notation$libelle==qual)
+                 
+                 
                  adv = input$note_adventice
+                 adv = which(notation$libelle==adv)
+                 
+                 
                  cat("rdt ",rdt," adv ",adv)
                  poids_indicateur = c(rdt,res,cons,qual,adv)
                  information_user[l+1,1]=0
@@ -152,11 +170,11 @@ server <- function(input, output) {
                  
                  cat(" test ",rdt,res,cons,qual,adv)
                  
-                 n = normalisation(f , list_esp = list_espe ,list_zone = list_zone,rdt,res,cons,qual,adv )
-                 inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user2.csv",row.names=FALSE,  sep = ";",dec = "," , na = "0")
+               n = normalisation(f , list_esp = list_espe ,list_zone = list_zone,rdt,res,cons,qual,adv )
+              inform_usr=  write.table(information_user,file="/srv/shiny-server/sample-apps/Projet_Rita/output/information_user2.csv",row.names=FALSE,  sep = ";",dec = "," , na = "0")
                  #output$table=renderTable(information_user)
                  
-                 output$classement = renderTable(n)
+              output$classement = renderTable(n)
                  # output$table = renderTable(information_user)
                  
                  #source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/app1/ui.R",local = TRUE)
