@@ -25,7 +25,7 @@ ui = fluidPage(
     
     
     mainPanel(
-      plotOutput(outputId="graphique")
+      plotOutput(outputId="graphique", width = "100%")
     )
   )
   
