@@ -71,20 +71,28 @@ server <- function(input, output) {
                  
                  rdt = input$note_rendement
                  rdt = which(notation$libelle==rdt)
-                 
+                 rdt = notation$note[rdt]
       
                  res = input$note_resistance
                  res = which(notation$libelle==res)
+                 res = notation$note[res]
+                 
                  
                  cons = input$note_conservation
                  cons = which(notation$libelle==cons)
+                 cons = notation$note[cons]
+                 
                  
                  qual = input$note_qualite
                  qual = which(notation$libelle==qual)
+                 qual = notation$note[qual]
+                 
                  
                  
                  adv = input$note_adventice
                  adv = which(notation$libelle==adv)
+                 adv = notation$note[adv]
+                 
                  
                  
                  cat("rdt ",rdt," adv ",adv)

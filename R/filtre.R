@@ -25,7 +25,7 @@ array_note = function()
 
 notation_qualita = function()
 {
-  notation = data.frame(note=c(1,2,3,4,5),libelle=c("insuffisant","très moyen","moyen","bien","très bien") )
+  notation = data.frame(note=c(5,4,3,2,1),libelle=c("Très important","Important","Moyennement important","Peu important","Pas du tout important") )
 
   return(notation)
 }
