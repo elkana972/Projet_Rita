@@ -33,6 +33,7 @@ server <- function(input, output) {
                     labelOptions=labelOptions(clickable=T, offset=c(10,-18)))
   })
   
+  
   ############################################################
   
   ############################################################
@@ -147,6 +148,7 @@ server <- function(input, output) {
                  #output$table2 = renderTable( f[[2]] )
                  #print( f[[7]] )
                  #print(poids_indicateur
+                 
                  
                  cat(" test ",rdt,res,cons,qual,adv)
                  

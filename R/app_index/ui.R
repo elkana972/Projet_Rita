@@ -5,6 +5,7 @@ library(shinydashboard)
 zn=array_zone()
 esp=array_esp()
 note = array_note()
+notation = notation_qualita()
 
 dashboardPage(
   dashboardHeader(title = "CIRAD" ),
@@ -12,7 +13,7 @@ dashboardPage(
     
     sidebarMenu(
       menuItem("Accueil", tabName = "accueil",icon = icon("home")),
-      menuItem("Fiche varietales", tabName = "fiche",   icon = icon("th")),
+      menuItem("Fiche varietales", tabName = "fiche", icon = icon("th")),
       menuItem("meteo", tabName = "meteo",   icon = icon("th")),
       
       menuItem("Aide", tabName = "aide",icon = icon("life-ring")),
@@ -55,11 +56,11 @@ dashboardPage(
                           checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn),
                              
                           checkboxGroupInput(inputId="espece",label = "Espece",choices = esp ),
-                          selectInput(inputId="note_rendement",label="Rendement",choices = note),
-                          selectInput(inputId="note_resistance",label="Résistance",choices = note),
-                          selectInput(inputId="note_conservation",label="Conservation",choices = note),
-                          selectInput(inputId="note_qualite",label="Qualité",choices = note),
-                          selectInput(inputId="note_adventice",label="Adventices",choices = note),
+                          selectInput(inputId="note_rendement",label="Rendement",choices = notation),
+                          selectInput(inputId="note_resistance",label="Résistance",choices = notation),
+                          selectInput(inputId="note_conservation",label="Conservation",choices = notation),
+                          selectInput(inputId="note_qualite",label="Qualité",choices = notation),
+                          selectInput(inputId="note_adventice",label="Adventices",choices = notation),
                              
                              actionButton(inputId="suivant", label="suivant"),
                               actionButton(inputId="initialiser", label="initialiser"),
