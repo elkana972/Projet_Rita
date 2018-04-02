@@ -9,9 +9,19 @@ notation = notation_qualita()
 n=notation$libelle
 
 dashboardPage(
-  dashboardHeader(title = "CIRAD" ),
+  dashboardHeader(
+    # 
+    tags$li(class = "dropdown",
+            tags$style(".main-header {max-height: 100px}"),
+            tags$style(".main-header .logo {height: 100px}")
+    ),
+    # Use image in title
+    # title = tags$a(href='http://localhost:3838/sample-apps/Projet_Rita/R/app_index/',tags$img(src="RITA_Gwada.jpg"))
+    title = "RITA GUADELOUPE Réseau d'innovation et de transfert agricole", titleWidth = 450
+  ),
   dashboardSidebar(
-    
+
+   # tags$style(".left-side, .main-sidebar {padding-top: 20px}"),
     sidebarMenu(
       menuItem("Accueil", tabName = "accueil",icon = icon("home")),
       menuItem("Fiche varietales", tabName = "fiche", icon = icon("th")),
@@ -23,7 +33,6 @@ dashboardPage(
   ),
   dashboardBody( 
     shinyjs::useShinyjs(),
-    
     tabItems(
       # First tab content
       tabItem(tabName = "accueil",
@@ -53,20 +62,25 @@ dashboardPage(
               # (
                 # condition = "input.suivant == false ",
                     box(
-                          width = 3 , status = "info",
+                          width = 5 , status = "info",
                           checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn),
-                             
+                        
                           checkboxGroupInput(inputId="espece",label = "Espece",choices = esp ),
+                          tags$h3("Visualisation des espèces"),
+                          actionButton(inputId ="alata", label = "Dioscorea-alata"),
+                          actionButton(inputId ="rotundata", label = "Dioscorea-rotundata"),
                           selectInput(inputId="note_rendement",label="Rendement",choices = n),
                           selectInput(inputId="note_resistance",label="Résistance",choices = n),
                           selectInput(inputId="note_conservation",label="Conservation",choices = n),
                           selectInput(inputId="note_qualite",label="Qualité",choices = n),
                           selectInput(inputId="note_adventice",label="Adventices",choices = n),
+                        
                              
                              actionButton(inputId="suivant", label="suivant"),
                               actionButton(inputId="initialiser", label="initialiser"),
                              tags$br(),
                              actionLink(inputId="help", "Aide")
+                          
                       ),
             
                               
@@ -76,7 +90,7 @@ dashboardPage(
                 #  (
                 #    condition = "input.suivant == false || input.initialiser == true",
                      box(
-                       width = 6, height ="530" , status = "info",
+                       width = 4, height ="530" , status = "info",
                        leaflet::leafletOutput(outputId="carte", width = "100%", height = "500")
                        ),
                 # ),
@@ -84,6 +98,8 @@ dashboardPage(
                     box(
                       width = 3 , status = "info" ,
                       tableOutput(outputId='classement')
+                      
+                      
                     )
       
               # conditionalPanel

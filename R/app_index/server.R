@@ -13,7 +13,10 @@ server <- function(input, output) {
   
   
   observeEvent(input$help, {
-    shinyjs::alert("Veuillez sélectionner au moins une zone et une espèce")
+    shinyjs::alert(tags$img(src="RITA_Gwada.jpg"))
+    #shinyjs::alert( tags$h4("Veuillez sélectionner au moins une zone et une espèce") )
+    
+    
   })
   
 
@@ -194,6 +197,21 @@ server <- function(input, output) {
   
   
   
+  observeEvent(input$alata, {
+    showModal(modalDialog(
+      title = tags$a(href='',tags$img(src="alata1.png")),
+      
+      easyClose = TRUE,
+      footer = modalButton("Fermer")
+    ))})
+  
+  observeEvent(input$rotundata, {
+    showModal(modalDialog(
+      title = tags$a(href='',tags$img(src="rotundata.png")),
+      
+      easyClose = TRUE,
+      footer = modalButton("Fermer")
+    ))})
   
   
   
