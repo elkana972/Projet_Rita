@@ -14,7 +14,7 @@ dashboardPage(
   
     # Use image in title
     # title = tags$a(href='http://localhost:3838/sample-apps/Projet_Rita/R/app_index/',tags$img(src="RITA_Gwada.jpg"))
-    title = "RITA GUADELOUPE Réseau d'innovation et de transfert agricole", titleWidth = 450
+    title = "RITA GUADELOUPE Réseau d'innovation et de transfert agricole", titleWidth = 700
   ),
   dashboardSidebar(
 
