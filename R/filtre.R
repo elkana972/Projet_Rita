@@ -256,9 +256,12 @@ normalisation = function(bdd,list_esp,list_zone,sco_rdt,sco_res,sco_cons,sco_qua
   
   # Sort data by score and selecty usefull variables
   dffinal<-dplyr::select(ungroup(indgs), Var,  VarScore)
+  str(dffinal)
+  
   colnames(dffinal)<-c("Variété", "Score")
 
-  #print(indgs)
+  dffinal <- dffinal[order(-dffinal$Score),] # tri en fonction de mpg (croissant) et cyl (decroissant)
+
   return(dffinal)
   #print(cons)
   # rdt1<-bdd[["drdt1"]]

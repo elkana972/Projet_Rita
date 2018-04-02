@@ -11,21 +11,18 @@ n=notation$libelle
 dashboardPage(
   dashboardHeader(
     # 
-    tags$li(class = "dropdown",
-            tags$style(".main-header {max-height: 100px}"),
-            tags$style(".main-header .logo {height: 100px}")
-    ),
+  
     # Use image in title
     # title = tags$a(href='http://localhost:3838/sample-apps/Projet_Rita/R/app_index/',tags$img(src="RITA_Gwada.jpg"))
     title = "RITA GUADELOUPE Réseau d'innovation et de transfert agricole", titleWidth = 450
   ),
   dashboardSidebar(
 
-   # tags$style(".left-side, .main-sidebar {padding-top: 20px}"),
+   
     sidebarMenu(
       menuItem("Accueil", tabName = "accueil",icon = icon("home")),
       menuItem("Fiche varietales", tabName = "fiche", icon = icon("th")),
-      menuItem("meteo", tabName = "meteo",   icon = icon("th")),
+      menuItem("Météo", tabName = "Météo",   icon = icon("th")),
       
       menuItem("Aide", tabName = "aide",icon = icon("life-ring")),
       menuItem("Contact", tabName = "contact",icon = icon("question"))
@@ -65,15 +62,16 @@ dashboardPage(
                           width = 5 , status = "info",
                           checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn),
                         
-                          checkboxGroupInput(inputId="espece",label = "Espece",choices = esp ),
+                          checkboxGroupInput(inputId="espece",label = "Espèce",choices = esp ),
                           tags$h3("Visualisation des espèces"),
                           actionButton(inputId ="alata", label = "Dioscorea-alata"),
                           actionButton(inputId ="rotundata", label = "Dioscorea-rotundata"),
-                          selectInput(inputId="note_rendement",label="Rendement",choices = n),
-                          selectInput(inputId="note_resistance",label="Résistance",choices = n),
-                          selectInput(inputId="note_conservation",label="Conservation",choices = n),
-                          selectInput(inputId="note_qualite",label="Qualité",choices = n),
-                          selectInput(inputId="note_adventice",label="Adventices",choices = n),
+                          tags$h3("Affectez une importance aux indicateurs"),
+                          selectInput(inputId="note_rendement",label="Production",choices = n),
+                          selectInput(inputId="note_resistance",label="Résistance aux maladies",choices = n),
+                          selectInput(inputId="note_conservation",label="Conservation en stockage",choices = n),
+                          selectInput(inputId="note_qualite",label="Qualité du tubercule",choices = n),
+                          selectInput(inputId="note_adventice",label="Tolérance aux adventices",choices = n),
                         
                              
                              actionButton(inputId="suivant", label="suivant"),
@@ -90,7 +88,7 @@ dashboardPage(
                 #  (
                 #    condition = "input.suivant == false || input.initialiser == true",
                      box(
-                       width = 4, height ="530" , status = "info",
+                       width = 4 , status = "info",
                        leaflet::leafletOutput(outputId="carte", width = "100%", height = "500")
                        ),
                 # ),
@@ -137,7 +135,7 @@ dashboardPage(
               h2("fiche")
       ),
 
-      tabItem(tabName = "meteo",
+      tabItem(tabName = "Météo",
               column(12,tags$iframe( width = "900", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/meteo/" ))
       ),
 
