@@ -24,8 +24,13 @@ dashboardPage(
       menuItem("Fiches variétales", tabName = "fiche", icon = icon("th")),
       menuItem("Météo", tabName = "Météo",   icon = icon("th")),
       
+    
+      menuItem("Partenaires", tabName = "partenaires", icon = icon("th")),
+      menuItem("Bailleurs de fonds", tabName = "bailleurs", icon = icon("th")),
       menuItem("Aide", tabName = "aide",icon = icon("life-ring")),
       menuItem("Contact", tabName = "contact",icon = icon("question"))
+      
+      
     )
   ),
   dashboardBody( 
@@ -216,7 +221,69 @@ dashboardPage(
       ),
       tabItem(tabName = "contact",
               h2("contact")
-      )
+      ),
+
+tabItem(tabName = "bailleurs",
+        h2("Bailleurs de fonds"),
+        box(
+          width = 9 , status = "info",
+          tags$table
+          ( 
+            class = "table",
+            tags$thead(
+              tags$tr(
+                tags$th("Bailleurs")
+              ),
+              tags$tr(
+              tags$td(
+                tags$a( href='https://www.europe-guadeloupe.fr/feader',tags$img(src="logo_Europe.jpg"))  
+              )),
+              tags$tr(
+                tags$td(
+                  tags$a( href='http://www.odeadom.fr/',tags$img(src="logo_ODEADOM.jpg"))  
+                )),
+              tags$tr(
+                tags$td(
+                  tags$a( href='http://www.regionguadeloupe.fr/accueil/#_',tags$img(src="logo_RegionGuadeloupe.png"))  
+                ))
+              
+            )
+          )
+          
+          )
+        ),
+
+tabItem(tabName = "partenaires",
+        h2("Partenaires"),
+        box(
+          width = 9 , status = "info",
+          tags$table
+          ( 
+            class = "table",
+            tags$thead(
+              tags$tr(
+                tags$th("Bailleurs")
+              ),
+              tags$tr(
+                tags$td(
+                  tags$a( href='https://www.europe-guadeloupe.fr/feader',tags$img(src="logo_Europe.jpg"))  
+                )),
+              tags$tr(
+                tags$td(
+                  tags$a( href='http://www.odeadom.fr/',tags$img(src="logo_ODEADOM.jpg"))  
+                )),
+              tags$tr(
+                tags$td(
+                  tags$a( href='http://www.regionguadeloupe.fr/accueil/#_',tags$img(src="logo_RegionGuadeloupe.png"))  
+                ))
+              
+            )
+          )
+          
+        )
+)
+
+
       
     )
   
