@@ -256,26 +256,36 @@ tabItem(tabName = "bailleurs",
 tabItem(tabName = "partenaires",
         h2("Partenaires"),
         box(
-          width = 9 , status = "info",
+          width = 12, status = "info",
           tags$table
           ( 
             class = "table",
             tags$thead(
               tags$tr(
-                tags$th("Bailleurs")
+                tags$th("partenaires")
               ),
               tags$tr(
                 tags$td(
-                  tags$a( href='https://www.europe-guadeloupe.fr/feader',tags$img(src="logo_Europe.jpg"))  
+                  tags$a( href='https://www.cirad.fr/',tags$img(src="logo_cirad.png"))  
                 )),
               tags$tr(
                 tags$td(
-                  tags$a( href='http://www.odeadom.fr/',tags$img(src="logo_ODEADOM.jpg"))  
+                  tags$a( href='http://institut.inra.fr/',tags$img(src="logo_INRA.jpg"))  
                 )),
               tags$tr(
                 tags$td(
-                  tags$a( href='http://www.regionguadeloupe.fr/accueil/#_',tags$img(src="logo_RegionGuadeloupe.png"))  
+                  tags$a( href='http://www.chambres-agriculture.fr/chambres-dagriculture/nous-connaitre/lannuaire-des-chambres-dagriculture/fiche-annuaire-dune-chambre-dagriculture/fiche/chambre-dagriculture-de-la-guadeloupe/',tags$img(src="logo_CA_Guadeloupe.JPG"))  
+                )),
+              
+              tags$tr(
+                tags$td(
+                  tags$a( href='http://www.sicapag-gpe.fr/',tags$img(src="logo_sicapag.png"))  
+                )),
+              tags$tr(
+                tags$td(
+                  tags$a( href='http://www.guadeloupe.educagri.fr/',tags$img(src="logo_EPLEFPA.gif"))  
                 ))
+              
               
             )
           )
