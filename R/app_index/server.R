@@ -205,6 +205,7 @@ server <- function(input, output) {
       footer = modalButton("Fermer")
     ))})
   
+  ############################################################
   observeEvent(input$rotundata, {
     showModal(modalDialog(
       title = tags$a(href='',tags$img(src="rotundata.png")),
@@ -212,6 +213,7 @@ server <- function(input, output) {
       easyClose = TRUE,
       footer = modalButton("Fermer")
     ))})
+  ############################################################
   
   
   

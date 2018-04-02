@@ -21,7 +21,7 @@ dashboardPage(
    
     sidebarMenu(
       menuItem("Accueil", tabName = "accueil",icon = icon("home")),
-      menuItem("Fiche varietales", tabName = "fiche", icon = icon("th")),
+      menuItem("Fiches variétales", tabName = "fiche", icon = icon("th")),
       menuItem("Météo", tabName = "Météo",   icon = icon("th")),
       
       menuItem("Aide", tabName = "aide",icon = icon("life-ring")),
@@ -132,7 +132,78 @@ dashboardPage(
       
       # Second tab content
       tabItem(tabName = "fiche",
-              h2("fiche")
+              h2("Téléchargement des fiches variétales"),
+              box(
+                width = 7 , status = "info",
+                # tags$div(
+                # paste("Alano"),
+                # downloadButton(outputId="alano", label = "ALANO")),
+                # 
+                # tags$div(
+                # paste("Belo"),
+                # downloadButton(outputId="belo", label = "BELO"))
+                tags$table
+                ( 
+                  class = "table",
+                  tags$thead(
+                  tags$tr(
+                    tags$th("Variété"),
+                    tags$th("Téléchargement")
+                  ),
+                  tags$tr(
+                    tags$td("ALANO"),
+                    tags$td(
+                      tags$a( href='http://localhost:3838/sample-apps/Projet_Rita/data/fiche_varietale/Alano.pdf',"ALANO")  
+                  )),
+                  tags$tr(
+                    tags$td("BELO"),
+                    tags$td(
+                    tags$a( href='http://localhost:3838/sample-apps/Projet_Rita/data/fiche_varietale/Belo.pdf',"BELO")  
+                    
+                  )),
+                  tags$tr(
+                    tags$td("COCO"),
+                    tags$td(
+                    tags$a( href='http://localhost:3838/sample-apps/Projet_Rita/data/fiche_varietale/Coco.pdf',"COCO")  
+                    
+                  )),
+                  tags$tr(
+                    tags$td("INRA15"),
+                    tags$td(
+                    tags$a( href='http://localhost:3838/sample-apps/Projet_Rita/data/fiche_varietale/INRA15.pdf',"INRA15")  
+                    
+                  )),
+                  tags$tr(
+                    tags$td("JANO"),
+                    tags$td(
+                    tags$a( href='http://localhost:3838/sample-apps/Projet_Rita/data/fiche_varietale/Jano.pdf',"JANO")  
+                    
+                  )),
+                  tags$tr(
+                    tags$td("MALAGI"),
+                    tags$td(
+                    tags$a( href='http://localhost:3838/sample-apps/Projet_Rita/data/fiche_varietale/Malalagi.pdf',"MALALAGI")  
+                    
+                  )),
+                  tags$tr(
+                    tags$td("ORGAL"),
+                    tags$td(
+                    tags$a( href='http://localhost:3838/sample-apps/Projet_Rita/data/fiche_varietale/Orgal.pdf',"ORGAL")  
+                    
+                  )),
+                  tags$tr(
+                    tags$td("TICLAIR"),
+                    tags$td(
+                    tags$a( href='http://localhost:3838/sample-apps/Projet_Rita/data/fiche_varietale/TiClair.pdf',"TICLAIR")  
+                    
+                  ))
+                
+                  )
+                  
+                )
+                
+                
+              )
       ),
 
       tabItem(tabName = "Météo",
