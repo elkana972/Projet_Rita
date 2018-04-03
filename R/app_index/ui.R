@@ -284,6 +284,10 @@ tabItem(tabName = "partenaires",
               tags$tr(
                 tags$td(
                   tags$a( href='http://www.guadeloupe.educagri.fr/',tags$img(src="logo_EPLEFPA.gif"))  
+                )),
+              tags$tr(
+                tags$td(
+                  tags$a( href=' www.it2.fr',tags$img(src="logo_IT2.png"))  
                 ))
               
               
