@@ -287,7 +287,7 @@ tabItem(tabName = "partenaires",
                 )),
               tags$tr(
                 tags$td(
-                  tags$a( href=' www.it2.fr',tags$img(src="logo_IT2.png"))  
+                  tags$a( href='http://www.it2.fr/',tags$img(src="logo_IT2.png"))  
                 ))
               
               
