@@ -8,6 +8,7 @@ note = array_note()
 notation = notation_qualita()
 n=notation$libelle
 
+
 dashboardPage(
   dashboardHeader(
     # 
@@ -94,7 +95,9 @@ dashboardPage(
                 #    condition = "input.suivant == false || input.initialiser == true",
                      box(
                        width = 4 , status = "info",
-                       leaflet::leafletOutput(outputId="carte", width = "100%", height = "500")
+                       leaflet::leafletOutput(outputId="carte", width = "100%", height = "500"),
+                       p(),
+                       actionButton("pt", "")
                        ),
                 # ),
 

@@ -7,6 +7,7 @@ InstIfNec<-function (pack) {
   do.call(require,as.list(pack)) }
 lapply(packs, InstIfNec)
 
+list_carte = list()
 
 
 server <- function(input, output) { 
@@ -19,24 +20,71 @@ server <- function(input, output) {
     
   })
   
-
+  
+  # build data with 2 places
+  data=data.frame(x=c(-61.816175, -61.245253), y=c(16.275318,16.321172), id=c("Basse-Terre", "Grande-Terre et Marie-Galante"))
   
   gwad0<-getData('GADM', country='GLP', level=1) # Adding administrative border
   gwad0@data$ID_0<-c("Basse-Terre", "Grande-Terre et Marie-Galante")
   gwad0 <- spChFIDs(gwad0, as.character(gwad0$ID_0))
   row.names(as(gwad0, "data.frame"))
-
+  
+  # create a reactive value that will store the click position
+  data_of_click <- reactiveValues(clickedMarker=NULL)
+  
+  # store the click
+  observeEvent(input$carte_marker_click,{
+    
+    data_of_click$clickedMarker <- input$carte_marker_click
+    my_place=data_of_click$clickedMarker$id
+    
+    print(my_place)
+    print("coo")
+  })
+  
   output$carte = renderLeaflet({
-      leaflet(gwad0) %>%
-        addPolygons(color="#444444", weight=1, smoothFactor=.5,
-                    opacity=1, fillOpacity=.5, label=~as.character(ID_0),
-                    fillColor=~colorQuantile("YlOrRd", OBJECTID)(OBJECTID),
-                    highlightOptions=highlightOptions(color="green", weight=3,
-                                                      bringToFront=T),
-                    labelOptions=labelOptions(clickable=T, offset=c(10,-18)))
+    
+        #  m=leaflet(gwad0)%>%
+        # addPolygons(data=gwad0,color="#444444", weight=1, smoothFactor=.5,
+        #             opacity=1, fillOpacity=.5, label=~as.character(ID_0),
+        #             fillColor=~colorQuantile("YlOrRd", OBJECTID)(OBJECTID),
+        #             highlightOptions=highlightOptions(color="green", weight=3,
+        #                                               bringToFront=T)
+        #             ,labelOptions=labelOptions(clickable=T, offset=c(10,-18)))
+         
+  
+  leaflet(gwad0) %>%
+    setView(lng=-61.5361400, lat =  16.2412500, zoom=9) %>%
+    addTiles(options = providerTileOptions(noWrap = TRUE)) %>%
+      addPolygons(data=gwad0,color="#444444", weight=1, smoothFactor=.5,
+                              opacity=1, fillOpacity=.5, label=~as.character(ID_0),
+                              fillColor=~colorQuantile("YlOrRd", OBJECTID)(OBJECTID),
+                              highlightOptions=highlightOptions(color="green", weight=3,
+                                                                bringToFront=T)
+                              ,labelOptions=labelOptions(clickable=T, offset=c(10,-18))) %>%
+    
+    addCircleMarkers(data=data, ~x , ~y, layerId=~id, popup=~id, radius=8 , color="black",  
+                     fillColor="red", stroke = TRUE, fillOpacity = 0.8) 
+    # %>%
+    # addPolygons(color="#444444", weight=1, smoothFactor=.5,
+    #             opacity=1, fillOpacity=.5, label=~as.character(ID_0),
+    #             fillColor=~colorQuantile("YlOrRd", OBJECTID)(OBJECTID),
+    #             highlightOptions=highlightOptions(color="green", weight=3,
+    #                                               bringToFront=T),
+    #             labelOptions=labelOptions(clickable=T, offset=c(10,-18)))  
+  
+ 
   })
   
   
+
+  # observeEvent(input$carte_click , {
+  #   c= input$mymap_shape_click
+  #   print(c)
+  # })  
+  
+# a= output$carte_shape_click
+# shiny::observeEvent ( input$myMap_shape_click, {
   ############################################################
   
   ############################################################
