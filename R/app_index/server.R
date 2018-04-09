@@ -1,3 +1,4 @@
+
 # Loading libraries
 packs <- c("plotKML", "maptools", "ggmap", "ggthemes", "ggsn", "stringr",
            "raster", "tidyverse", "broom","shinydashboard","leaflet","raster")
@@ -7,10 +8,9 @@ InstIfNec<-function (pack) {
   do.call(require,as.list(pack)) }
 lapply(packs, InstIfNec)
 
-list_carte = list()
 
 
-server <- function(input, output) { 
+server <- function(input, output , session) { 
   
   
   observeEvent(input$help, {
@@ -41,6 +41,56 @@ server <- function(input, output) {
     print(my_place)
     print("coo")
   })
+    
+  zn=array_zone()
+ 
+  cpt <- reactiveValues( l = list() )
+  
+  observeEvent(input$init,
+               {
+              
+                 cpt$l[["GRANDE-TERRE"]] = ""
+                 cpt$l[[ "BASSE-TERRE" ]] = ""
+               #print(cpt$l)
+               updateCheckboxGroupInput(session, "zone",choices = zn,selected = cpt$l)
+               })
+             
+  
+  observeEvent(input$carte_shape_click,{
+    
+    
+    click <- input$carte_shape_click$id
+    
+    if(is.null(click))
+    {
+      click=""
+    }
+    
+    
+    
+    #print(click)
+     if(click=="Grande-Terre et Marie-Galante")
+    {
+      click = "GRANDE-TERRE"
+      cpt$l[["GRANDE-TERRE"]] = "GRANDE-TERRE"
+     # l[["GRANDE-TERRE"]] = "GRANDE-TERRE"
+     }
+    else if(click=="Basse-Terre")
+    {
+     click = "BASSE-TERRE"
+     cpt$l[[ "BASSE-TERRE" ]] = "BASSE-TERRE"
+     #l[["BASSE-TERRE"]] = "BASSE-TERRE"
+     # updateCheckboxGroupInput(session, "zone",choices = zn,
+     #                          selected = click
+     #                           )
+    }
+    i=0
+    print(cpt$l)
+    i=1
+    updateCheckboxGroupInput(session, "zone",choices = zn,
+                             selected = cpt$l)
+    
+     })
   
   output$carte = renderLeaflet({
     
@@ -56,15 +106,16 @@ server <- function(input, output) {
   leaflet(gwad0) %>%
     setView(lng=-61.5361400, lat =  16.2412500, zoom=9) %>%
     addTiles(options = providerTileOptions(noWrap = TRUE)) %>%
-      addPolygons(data=gwad0,color="#444444", weight=1, smoothFactor=.5,
+      addPolygons(data=gwad0,color="#444444", layerId= gwad0$ID_0, weight=1, smoothFactor=.5,
                               opacity=1, fillOpacity=.5, label=~as.character(ID_0),
                               fillColor=~colorQuantile("YlOrRd", OBJECTID)(OBJECTID),
                               highlightOptions=highlightOptions(color="green", weight=3,
                                                                 bringToFront=T)
-                              ,labelOptions=labelOptions(clickable=T, offset=c(10,-18))) %>%
+                              ,labelOptions=labelOptions(clickable=T, offset=c(10,-18))) 
+      #%>%
     
-    addCircleMarkers(data=data, ~x , ~y, layerId=~id, popup=~id, radius=8 , color="black",  
-                     fillColor="red", stroke = TRUE, fillOpacity = 0.8) 
+      # addCircleMarkers(data=data, ~x , ~y, layerId=~id, popup=~id, radius=8 , color="black",  
+      #                fillColor="red", stroke = TRUE, fillOpacity = 0.8) 
     # %>%
     # addPolygons(color="#444444", weight=1, smoothFactor=.5,
     #             opacity=1, fillOpacity=.5, label=~as.character(ID_0),
@@ -89,15 +140,17 @@ server <- function(input, output) {
   
   ############################################################
  # observeEvent( input$, {foo})
+  i=0
   observe({
     
-    e=input$espece
+    e =input$espece
     z=input$zone
     taille_e=length(e)
     taille_z=length(z)
     #str(e)
     #str(z)
-  
+    
+    
     shinyjs::toggleState(id="suivant",taille_e>0 && taille_z>0)
   })
   ############################################################

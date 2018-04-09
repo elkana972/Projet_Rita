@@ -97,7 +97,7 @@ dashboardPage(
                        width = 4 , status = "info",
                        leaflet::leafletOutput(outputId="carte", width = "100%", height = "500"),
                        p(),
-                       actionButton("pt", "")
+                       actionButton("init", "initialiser")
                        ),
                 # ),
 
