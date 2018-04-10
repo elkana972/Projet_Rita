@@ -25,7 +25,9 @@ ui = fluidPage(
     
     
     mainPanel(
-      plotOutput(outputId="graphique", width = "100%")
+     # tags$div(width = 600, style = 'overflow-x: scroll',   plotOutput(outputId="graphique", width = "100%") )
+      tags$div(plotOutput(outputId="graphique", width = "100%") )
+      
     )
   )
   

@@ -24,8 +24,6 @@ dashboardPage(
       menuItem("Accueil", tabName = "accueil",icon = icon("home")),
       menuItem("Fiches variétales", tabName = "fiche", icon = icon("th")),
       menuItem("Météo", tabName = "Météo",   icon = icon("th")),
-      
-    
       menuItem("Partenaires", tabName = "partenaires", icon = icon("th")),
       menuItem("Bailleurs de fonds", tabName = "bailleurs", icon = icon("th")),
       menuItem("Aide", tabName = "aide",icon = icon("life-ring")),
@@ -39,38 +37,23 @@ dashboardPage(
     tabItems(
       # First tab content
       tabItem(tabName = "accueil",
-              #  
-              #  # column(5,tags$iframe( width = "500", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/carte_sig/" )),
-              #   # column(8,tags$iframe( width = "860", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/choix_zone_esp/" ))
-              #   # 
-              #   #     
-              #   
-              #   box(
-              #     width = 8, height ="530" , status = "info",
-              #   
-              #     tags$iframe(height = "500",width = "800",src = "http://localhost:3838/sample-apps/Projet_Rita/R/choix_zone_esp/" )
-              #   )
-              #   
-              #   # valueBox(value= "dd", color = "aqua", width = 4,
-              #   #          href = "http://localhost:3838/sample-apps/Projet_Rita/R/choix_zone_esp/")
-              #   # 
-              #   )
-              
-              # ,
-              # 
-              # fluidRow()
-              
-              # sidebarPanel(
-              # conditionalPanel
-              # (
-                # condition = "input.suivant == false ",
+              fluidRow(
                     box(
                           width = 5 , status = "info",
-                          checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn, selected = l),
-                        
-                          checkboxGroupInput(inputId="espece",label = "Espèce",choices = esp ),
+                          tags$h3("Choix de la zone"),
+                          leaflet::leafletOutput(outputId="carte", width = "100%", height = "500"),
+                          
+                
+                          checkboxGroupInput(inputId="zone",label = "",choices = zn, selected = l),
+                          p(),
+                          actionButton("init", "initialiser"),
+                          tags$h3("Choix de l'espèce"),
+                          checkboxGroupInput(inputId="espece",label = "",choices = esp),
+                          
                           tags$h3("Visualisation des espèces"),
                           actionButton(inputId ="alata", label = "Dioscorea-alata"),
+                          tags$br(),
+                          tags$br(),
                           actionButton(inputId ="rotundata", label = "Dioscorea-rotundata"),
                           tags$h3("Affectez une importance aux indicateurs"),
                           selectInput(inputId="note_rendement",label="Production",choices = n),
@@ -78,10 +61,8 @@ dashboardPage(
                           selectInput(inputId="note_conservation",label="Conservation en stockage",choices = n),
                           selectInput(inputId="note_qualite",label="Qualité du tubercule",choices = n),
                           selectInput(inputId="note_adventice",label="Tolérance aux adventices",choices = n),
-                        
-                             
-                             actionButton(inputId="suivant", label="suivant"),
-                              actionButton(inputId="initialiser", label="initialiser"),
+                          actionButton(inputId="suivant", label="suivant"),
+                          actionButton(inputId="initialiser", label="initialiser"),
                              tags$br(),
                              actionLink(inputId="help", "Aide")
                           
@@ -93,12 +74,12 @@ dashboardPage(
                 # conditionalPanel
                 #  (
                 #    condition = "input.suivant == false || input.initialiser == true",
-                     box(
-                       width = 4 , status = "info",
-                       leaflet::leafletOutput(outputId="carte", width = "100%", height = "500"),
-                       p(),
-                       actionButton("init", "initialiser")
-                       ),
+                     # box(
+                       # width = 4 , status = "info",
+                       # leaflet::leafletOutput(outputId="carte", width = "100%", height = "500"),
+                       # p(),
+                       # actionButton("init", "initialiser")
+                       # ),
                 # ),
 
                     box(
@@ -107,7 +88,7 @@ dashboardPage(
                       
                       
                     )
-      
+              )
               # conditionalPanel
               # (
               #   condition = "input.suivant == true  ",
@@ -143,13 +124,6 @@ dashboardPage(
               h2("Téléchargement des fiches variétales"),
               box(
                 width = 7 , status = "info",
-                # tags$div(
-                # paste("Alano"),
-                # downloadButton(outputId="alano", label = "ALANO")),
-                # 
-                # tags$div(
-                # paste("Belo"),
-                # downloadButton(outputId="belo", label = "BELO"))
                 tags$table
                 ( 
                   class = "table",
@@ -215,7 +189,10 @@ dashboardPage(
       ),
 
       tabItem(tabName = "Météo",
-              column(12,tags$iframe( width = "900", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/meteo/" ))
+              fluidRow(
+              column(12,tags$iframe( width = "900", height = "500",src = "http://localhost:3838/sample-apps/Projet_Rita/R/meteo/" )
+                     ,style = "height:500px; overflow-y: scroll;overflow-x: scroll;")
+              )
       ),
 
       
