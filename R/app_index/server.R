@@ -1,3 +1,4 @@
+source("/opt/shiny-server/samples/sample-apps/Projet_Rita/R/app_index/ui.R")
 
 # Loading libraries
 packs <- c("plotKML", "maptools", "ggmap", "ggthemes", "ggsn", "stringr",
@@ -44,7 +45,7 @@ server <- function(input, output , session) {
     
   zn=array_zone()
  
-  cpt <- reactiveValues( l = list() )
+  cpt <- reactiveValues( l = l )
   
   observeEvent(input$init,
                {

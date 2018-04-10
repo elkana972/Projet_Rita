@@ -7,7 +7,7 @@ esp=array_esp()
 note = array_note()
 notation = notation_qualita()
 n=notation$libelle
-
+l = list()
 
 dashboardPage(
   dashboardHeader(
@@ -66,7 +66,7 @@ dashboardPage(
                 # condition = "input.suivant == false ",
                     box(
                           width = 5 , status = "info",
-                          checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn),
+                          checkboxGroupInput(inputId="zone",label = "ZONE",choices = zn, selected = l),
                         
                           checkboxGroupInput(inputId="espece",label = "Espèce",choices = esp ),
                           tags$h3("Visualisation des espèces"),
