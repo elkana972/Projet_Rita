@@ -94,18 +94,8 @@ server <- function(input, output , session) {
      })
   
   output$carte = renderLeaflet({
-    
-        #  m=leaflet(gwad0)%>%
-        # addPolygons(data=gwad0,color="#444444", weight=1, smoothFactor=.5,
-        #             opacity=1, fillOpacity=.5, label=~as.character(ID_0),
-        #             fillColor=~colorQuantile("YlOrRd", OBJECTID)(OBJECTID),
-        #             highlightOptions=highlightOptions(color="green", weight=3,
-        #                                               bringToFront=T)
-        #             ,labelOptions=labelOptions(clickable=T, offset=c(10,-18)))
-         
-  
   leaflet(gwad0) %>%
-    setView(lng=-61.5361400, lat =  16.2412500, zoom=9) %>%
+    setView(lng=-61.5361400, lat =  16.2412500, zoom=9.1) %>%
     addTiles(options = providerTileOptions(noWrap = TRUE)) %>%
       addPolygons(data=gwad0,color="#444444", layerId= gwad0$ID_0, weight=1, smoothFactor=.5,
                               opacity=1, fillOpacity=.5, label=~as.character(ID_0),
@@ -113,19 +103,6 @@ server <- function(input, output , session) {
                               highlightOptions=highlightOptions(color="green", weight=3,
                                                                 bringToFront=T)
                               ,labelOptions=labelOptions(clickable=T, offset=c(10,-18))) 
-      #%>%
-    
-      # addCircleMarkers(data=data, ~x , ~y, layerId=~id, popup=~id, radius=8 , color="black",  
-      #                fillColor="red", stroke = TRUE, fillOpacity = 0.8) 
-    # %>%
-    # addPolygons(color="#444444", weight=1, smoothFactor=.5,
-    #             opacity=1, fillOpacity=.5, label=~as.character(ID_0),
-    #             fillColor=~colorQuantile("YlOrRd", OBJECTID)(OBJECTID),
-    #             highlightOptions=highlightOptions(color="green", weight=3,
-    #                                               bringToFront=T),
-    #             labelOptions=labelOptions(clickable=T, offset=c(10,-18)))  
-  
- 
   })
   
   
