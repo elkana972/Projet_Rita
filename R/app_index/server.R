@@ -16,7 +16,7 @@ server <- function(input, output , session) {
   
   observeEvent(input$help, {
   
-    shinyjs::alert( tags$h4("Veuillez sélectionner au moins une zone et une espèce") )
+    shinyjs::alert( ("Veuillez sélectionner au moins une zone et une espèce") )
     
     
   })

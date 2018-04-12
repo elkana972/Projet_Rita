@@ -9,10 +9,9 @@ notation = notation_qualita()
 n=notation$libelle
 l = list()
 
+
 dashboardPage(
   dashboardHeader(
-    # 
-  
     # Use image in title
     # title = tags$a(href='http://localhost:3838/sample-apps/Projet_Rita/R/app_index/',tags$img(src="RITA_Gwada.jpg"))
     title = "RITA GUADELOUPE Réseau d'innovation et de transfert agricole", titleWidth = 700
@@ -22,21 +21,29 @@ dashboardPage(
    
     sidebarMenu(
       menuItem("Accueil", tabName = "accueil",icon = icon("home")),
+      menuItem("Outil décisionnel", tabName = "outil",icon = icon("th")),
       menuItem("Fiches variétales", tabName = "fiche", icon = icon("th")),
       menuItem("Météo", tabName = "Météo",   icon = icon("th")),
       menuItem("Partenaires", tabName = "partenaires", icon = icon("th")),
       menuItem("Bailleurs de fonds", tabName = "bailleurs", icon = icon("th")),
       menuItem("Aide", tabName = "aide",icon = icon("life-ring")),
       menuItem("Contact", tabName = "contact",icon = icon("question"))
-      
-      
     )
   ),
+  #outil décisionnel
   dashboardBody( 
+   # http://localhost:3838/sample-apps/Projet_Rita/R/accueil/
     shinyjs::useShinyjs(),
     tabItems(
       # First tab content
       tabItem(tabName = "accueil",
+              fluidRow(
+                column(12,
+                       tags$iframe(width = "900", height = "700",src = "http://localhost:3838/sample-apps/Projet_Rita/R/accueil/"),
+                                      style = " overflow-y: scroll;overflow-x: scroll;")
+                       )
+      ),
+      tabItem(tabName = "outil",
               fluidRow(
                     box(
                           width = 5 , status = "info",
@@ -68,9 +75,6 @@ dashboardPage(
                           
                       ),
             
-                              
-
-
                 # conditionalPanel
                 #  (
                 #    condition = "input.suivant == false || input.initialiser == true",
