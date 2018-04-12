@@ -11,6 +11,7 @@ l = list()
 
 
 dashboardPage(
+  
   dashboardHeader(
     # Use image in title
     # title = tags$a(href='http://localhost:3838/sample-apps/Projet_Rita/R/app_index/',tags$img(src="RITA_Gwada.jpg"))
@@ -34,6 +35,7 @@ dashboardPage(
   dashboardBody( 
    # http://localhost:3838/sample-apps/Projet_Rita/R/accueil/
     shinyjs::useShinyjs(),
+    tags$style(type="text/css", "img { max-width:100%; height: auto; }"),
     tabItems(
       # First tab content
       tabItem(tabName = "accueil",
@@ -209,6 +211,7 @@ dashboardPage(
 
 tabItem(tabName = "bailleurs",
         h2("Bailleurs de fonds"),
+        fluidRow(
         box(
           width = 9 , status = "info",
           tags$table
@@ -235,7 +238,7 @@ tabItem(tabName = "bailleurs",
           )
           
           )
-        ),
+        ) ),
 
 tabItem(tabName = "partenaires",
         h2("Partenaires"),
