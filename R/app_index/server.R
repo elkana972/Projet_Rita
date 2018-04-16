@@ -276,13 +276,17 @@ server <- function(input, output , session) {
   
   
   
-  observeEvent(input$alata, {
+  observeEvent(input$especes, {
     showModal(modalDialog(
       title = tags$a(href='',tags$img(src="alata1.png")),
       
+      
       easyClose = TRUE,
-      footer = modalButton("Fermer")
-    ))})
+      footer = modalButton("Fermer"),
+      tags$img(src="rotundata.png")
+    ) 
+    )
+    })
   
   ############################################################
   observeEvent(input$rotundata, {
@@ -293,8 +297,10 @@ server <- function(input, output , session) {
       footer = modalButton("Fermer")
     ))})
   ############################################################
-  
-  
+ 
+  observeEvent(input$refresh, {
+    
+                               })
   
   
   
